@@ -1,4 +1,51 @@
 from abc import ABC, abstractmethod
+from enum import Enum, auto
+
+
+class TargetTypeEnum(Enum):
+    GAME_OBJECT = auto()
+    ROOM = auto()
+
+
+class ActionEnum(Enum):
+    INSPECT = auto()
+    INTERACT = auto()
+
+
+class GameReceiver(ABC):
+
+    @abstractmethod
+    def enter_room(self, room_name: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def exit_room(self, room_name: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def summarize_room(self, room_summary: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def summarize_inspection(self, inspection_summary: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def notify_unknown_target(
+        self,
+        target_name: str,
+        target_type: TargetTypeEnum
+    ) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def notify_unknown_action(
+        self,
+        target_name: str,
+        target_type: TargetTypeEnum,
+        action: ActionEnum
+    ) -> None:
+        raise NotImplementedError()
 
 
 class InteractionReceiver(ABC):
