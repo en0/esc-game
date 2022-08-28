@@ -2,10 +2,10 @@ from unittest import TestCase, skip
 from unittest.mock import Mock
 from fixtures import a, an
 
-from esc.core.domain import GameObject, InteractionReceiver, Interaction, exceptions
+from esc.core import GameObject, InteractionReceiver, Interaction, exceptions
 
 
-class GameObjectTests(TestCase):
+class BasicGameObjectTests(TestCase):
 
     def test_fixtures_builder_returns_game_object(self):
         game_obj = a.game_object_builder.build()
@@ -60,7 +60,7 @@ class GameObjectTests(TestCase):
     def test_interaction_raises_when_not_set(self):
         mock_receiver = Mock(spec=InteractionReceiver)
         game_obj = a.game_object_builder.with_name("test-interaction").build()
-        with self.assertRaises(exceptions.ObjectNotInteractable):
+        with self.assertRaises(exceptions.NotInteractableError):
             game_obj.interact(mock_receiver)
 
 

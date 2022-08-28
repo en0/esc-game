@@ -1,10 +1,10 @@
 from unittest import TestCase, skip
 from fixtures import a, an
 
-from esc.core.domain import Room, exceptions
+from esc.core import Room, exceptions
 
 
-class RoomTests(TestCase):
+class BasicRoomTests(TestCase):
 
     def test_fixtures_builder_returns_room(self):
         room = a.room_builder.build()
@@ -46,7 +46,7 @@ class RoomTests(TestCase):
 
     def test_get_object_raises_not_found(self):
         room = a.room_builder.build()
-        with self.assertRaises(exceptions.OjbectNotFound):
+        with self.assertRaises(exceptions.NotFoundError):
             room.get_game_object("no-exist")
 
     def test_summarize(self):

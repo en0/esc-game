@@ -1,13 +1,14 @@
 from typing import List
-from esc.core.domain import GameObject
+from esc.core import GameObject
+from esc.core.models import BasicGameObject
 
 from .base import BuilderBase
 
 
-class GameObjectBuilder(BuilderBase[GameObject]):
+class BasicGameObjectBuilder(BuilderBase[GameObject]):
 
     def build(self) -> GameObject:
-        return GameObject(
+        return BasicGameObject(
             name=self._name,
             details=self._details,
             summary=self._summary,

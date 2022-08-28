@@ -2,7 +2,7 @@ class EcsGameError(Exception):
     ...
 
 
-class ObjectNotInteractable(EcsGameError):
+class NotInteractableError(EcsGameError):
 
     object_name: str
 
@@ -11,7 +11,7 @@ class ObjectNotInteractable(EcsGameError):
         super().__init__(f"Object not interactable")
 
 
-class OjbectNotFound(EcsGameError):
+class NotFoundError(EcsGameError):
 
     object_name: str
 
