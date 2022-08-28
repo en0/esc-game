@@ -1,5 +1,6 @@
-from .abstractions import (
+from .typing import (
     ActionEnum,
+    Command,
     Game,
     GameObject,
     GameReceiver,
@@ -9,7 +10,7 @@ from .abstractions import (
     TargetTypeEnum,
 )
 
-from .exceptions import (
+from .exception import (
     EcsGameError,
     NotFoundError,
     NotInteractableError,

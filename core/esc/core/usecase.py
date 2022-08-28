@@ -1,4 +1,4 @@
-from .models import Game
+from .typing import Game
 
 
 class GameInteractor(Game):

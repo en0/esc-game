@@ -126,6 +126,12 @@ class GameReceiver(ABC):
         raise NotImplementedError()
 
 
+class Command(ABC):
+
+    @abstractmethod
+    def execute(self):
+        raise NotImplementedError()
+
 class Game(ABC):
     ...
 

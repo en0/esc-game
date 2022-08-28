@@ -1,6 +1,6 @@
 from typing import List
 from esc.core import Room
-from esc.core.models import BasicRoom
+from esc.core.model import BasicRoom
 
 from .base import BuilderBase
 

@@ -1,6 +1,6 @@
-from typing import List
-from .abstractions import Interaction, InteractionReceiver, GameObject, Room
-from .exceptions import NotInteractableError, NotFoundError
+from typing import List, Dict, Callable
+from .typing import Interaction, InteractionReceiver, GameObject, Room, Command
+from .exception import NotInteractableError, NotFoundError
 
 
 class BasicGameObject(GameObject):
@@ -63,4 +63,19 @@ class BasicRoom(Room):
         except KeyError:
             raise NotFoundError(self._name)
 
+
+class DelegateCommand(Command):
+
+    def __init__(
+        self,
+        delegate: Callable,
+        *args: List,
+        **kwargs: Dict
+    ) -> None:
+        self._delegate = delegate
+        self._args = args
+        self._kwargs = kwargs
+
+    def execute(self):
+        self._delegate(*self._args, **self._kwargs)
 

@@ -1,6 +1,6 @@
 from typing import List
 from esc.core import GameObject
-from esc.core.models import BasicGameObject
+from esc.core.model import BasicGameObject
 
 from .base import BuilderBase
 
