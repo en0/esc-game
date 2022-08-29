@@ -132,6 +132,32 @@ class Command(ABC):
     def execute(self):
         raise NotImplementedError()
 
+
 class Game(ABC):
-    ...
+
+    @abstractmethod
+    def list_room_names(self) -> List[str]:
+        raise NotImplementedError()
+
+
+class RoomPack(ABC):
+
+    @abstractmethod
+    def list_room_names(self) -> List[str]:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def create_room(self, name: str) -> Room:
+        raise NotImplementedError()
+
+
+class RoomFactory(ABC):
+
+    @abstractmethod
+    def get_name(self) -> str:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def create(self) -> Room:
+        raise NotImplementedError()
 

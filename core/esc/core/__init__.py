@@ -7,6 +7,8 @@ from .typing import (
     Interaction,
     InteractionReceiver,
     Room,
+    RoomFactory,
+    RoomPack,
     TargetTypeEnum,
 )
 

@@ -2,6 +2,7 @@ from .basic_game_object_builder import BasicGameObjectBuilder
 from .basic_room_builder import BasicRoomBuilder
 from .delegate_command_builder import DelegateCommandBuilder
 from .game_interactor_builder import GameInteractorBuilder
+from .static_room_pack_builder import StaticRoomPackBuilder
 
 
 class _A:
@@ -21,6 +22,10 @@ class _A:
     @property
     def game_interactor_builder(self) -> GameInteractorBuilder:
         return GameInteractorBuilder()
+
+    @property
+    def static_room_pack_builder(self) -> StaticRoomPackBuilder:
+        return StaticRoomPackBuilder()
 
 
 class _An:

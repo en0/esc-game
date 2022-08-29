@@ -1,5 +1,5 @@
 from typing import List, Dict, Callable
-from .typing import Interaction, InteractionReceiver, GameObject, Room, Command
+from .typing import Interaction, InteractionReceiver, GameObject, Room, Command, RoomPack, RoomFactory
 from .exception import NotInteractableError, NotFoundError
 
 
@@ -78,4 +78,21 @@ class DelegateCommand(Command):
 
     def execute(self):
         self._delegate(*self._args, **self._kwargs)
+
+
+class StaticRoomPack(RoomPack):
+
+    def __init__(self, room_factories: List[RoomFactory]) -> None:
+        self._room_factories = {f.get_name(): f for f in room_factories}
+
+    def list_room_names(self) -> List[str]:
+        return list(self._room_factories.keys())
+
+    def create_room(self, name: str) -> Room:
+        try:
+            factory = self._room_factories[name]
+        except KeyError:
+            raise NotFoundError(name)
+        else:
+            return factory.create()
 
