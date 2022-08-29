@@ -9,7 +9,7 @@ class Receiver(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def inform_success(self, message: str) -> None:
+    def inform_win(self, message: str) -> None:
         raise NotImplementedError()
 
     @abstractmethod
@@ -39,6 +39,10 @@ class Receiver(ABC):
 
 
 class ActionReceiver(ABC):
+
+    @abstractmethod
+    def win(self, message: str) -> None:
+        raise NotImplementedError()
 
     @abstractmethod
     def collect_input(
