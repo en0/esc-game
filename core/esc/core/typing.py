@@ -155,19 +155,14 @@ class RoomFactory(ABC):
         raise NotImplementedError()
 
 
-class RoomPackBuilder(ABC):
-
-    @abstractmethod
-    def with_room(self, name: str, creator: Callable[None, Room]) -> "RoomPackBuilder":
-        raise NotImplementedError()
-
-    @abstractmethod
-    def build(self) -> RoomPack:
-        raise NotImplementedError()
-
-
-class Game(ABC):
+class EscapeRoomGame(ABC):
 
     @abstractmethod
     def list_room_names(self) -> List[str]:
         raise NotImplementedError()
+
+    # load a game
+    # reset a game
+    # request_summary
+    #
+

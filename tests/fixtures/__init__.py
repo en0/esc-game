@@ -1,7 +1,8 @@
 from .basic_game_object_builder import BasicGameObjectBuilder
 from .basic_room_builder import BasicRoomBuilder
 from .delegate_command_builder import DelegateCommandBuilder
-from .game_interactor_builder import GameInteractorBuilder
+from .escape_room_game_interactor_builder import EscapeRoomGameInteractorBuilder
+from .room_pack_builder_builder import RoomPackBuilderBuilder
 from .static_room_pack_builder import StaticRoomPackBuilder
 
 
@@ -20,12 +21,16 @@ class _A:
         return DelegateCommandBuilder()
 
     @property
-    def game_interactor_builder(self) -> GameInteractorBuilder:
-        return GameInteractorBuilder()
+    def game_interactor_builder(self) -> EscapeRoomGameInteractorBuilder:
+        return EscapeRoomGameInteractorBuilder()
 
     @property
     def static_room_pack_builder(self) -> StaticRoomPackBuilder:
         return StaticRoomPackBuilder()
+
+    @property
+    def room_pack_builder_builder(self) -> RoomPackBuilderBuilder:
+        return RoomPackBuilderBuilder()
 
 
 class _An:

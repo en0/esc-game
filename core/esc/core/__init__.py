@@ -1,7 +1,7 @@
 from .typing import (
     ActionEnum,
     Command,
-    Game,
+    EscapeRoomGame,
     GameObject,
     GameReceiver,
     Interaction,
@@ -9,7 +9,6 @@ from .typing import (
     Room,
     RoomFactory,
     RoomPack,
-    RoomPackBuilder,
     TargetTypeEnum,
 )
 
@@ -19,6 +18,7 @@ from .exception import (
     NotInteractableError,
 )
 
-from .usecase import (
-    RoomPackBuilderInteractor,
+from .utils import (
+    RoomPackBuilder
 )
+
