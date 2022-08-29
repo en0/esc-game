@@ -9,6 +9,7 @@ from .typing import (
     Room,
     RoomFactory,
     RoomPack,
+    RoomPackBuilder,
     TargetTypeEnum,
 )
 
@@ -18,3 +19,6 @@ from .exception import (
     NotInteractableError,
 )
 
+from .usecase import (
+    RoomPackBuilderInteractor,
+)

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Callable
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 
@@ -133,13 +133,6 @@ class Command(ABC):
         raise NotImplementedError()
 
 
-class Game(ABC):
-
-    @abstractmethod
-    def list_room_names(self) -> List[str]:
-        raise NotImplementedError()
-
-
 class RoomPack(ABC):
 
     @abstractmethod
@@ -161,3 +154,20 @@ class RoomFactory(ABC):
     def create(self) -> Room:
         raise NotImplementedError()
 
+
+class RoomPackBuilder(ABC):
+
+    @abstractmethod
+    def with_room(self, name: str, creator: Callable[None, Room]) -> "RoomPackBuilder":
+        raise NotImplementedError()
+
+    @abstractmethod
+    def build(self) -> RoomPack:
+        raise NotImplementedError()
+
+
+class Game(ABC):
+
+    @abstractmethod
+    def list_room_names(self) -> List[str]:
+        raise NotImplementedError()
