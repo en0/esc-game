@@ -1,6 +1,29 @@
 from typing import List, Dict, Callable
-from .typing import Interaction, InteractionReceiver, GameObject, Room, Command, RoomPack, RoomFactory
-from .exception import NotInteractableError, NotFoundError
+
+from .exception import NotInteractableError, NotFoundError, ActionError
+from .typing import (
+    Action,
+    Command,
+    GameObject,
+    ActionReceiver,
+    Room,
+    RoomFactory,
+    RoomPack,
+)
+
+
+class InformAction(Action):
+
+    def __init__(self, name: str, message: str, mime_type: str) -> None:
+        self._name = name
+        self._message = message
+        self._mime_type = mime_type
+
+    def get_name(self) -> str:
+        return self._name
+
+    def trigger(self, owner: GameObject, receiver: ActionReceiver):
+        receiver.inform_result(self._message, self._mime_type)
 
 
 class BasicGameObject(GameObject):
@@ -8,35 +31,51 @@ class BasicGameObject(GameObject):
     def __init__(
         self,
         name: str,
-        details: str,
         summary: str,
         children: List["GameObject"] = None
     ) -> None:
         self._name = name
-        self._details = details
         self._summary = summary
-        self._children = children or []
-        self._interaction = None
+        self._children = {c.get_name(): c for c in children or []}
+        self._actions = {}
 
     def get_name(self) -> str:
         return self._name
 
-    def get_details(self) -> str:
-        return self._details
-
     def get_summary(self) -> str:
         return self._summary
 
+    def add_child(self, child: GameObject) -> None:
+        self._children[child.get_name()] = child
+
+    def remove_child(self, name: str) -> None:
+        try:
+            del self._children[name]
+        except KeyError:
+            raise NotFoundError(name)
+
+    def get_child(self, name: str) -> GameObject:
+        try:
+            return self._children[name]
+        except KeyError:
+            raise NotFoundError(name)
+
     def get_children(self) -> List["GameObject"]:
-        return self._children
+        return list(self._children.values())
 
-    def set_interaction(self, interaction: Interaction) -> None:
-        self._interaction = interaction
+    def add_action(self, action: Action) -> None:
+        self._actions[action.get_name()] = action
 
-    def interact(self, receiver: InteractionReceiver) -> None:
-        if self._interaction is None:
-            raise NotInteractableError(self._name)
-        self._interaction.interact(receiver)
+    def list_action_names(self) -> List[str]:
+        return list(self._actions.keys())
+
+    def trigger_action(self, name: str, receiver: ActionReceiver) -> None:
+        if name not in self._actions:
+            raise NotFoundError(name)
+        try:
+            self._actions[name].trigger(self, receiver)
+        except Exception:
+            raise ActionError(self._name, name)
 
 
 class BasicRoom(Room):

@@ -4,6 +4,7 @@ from .delegate_command_builder import DelegateCommandBuilder
 from .escape_room_game_interactor_builder import EscapeRoomGameInteractorBuilder
 from .room_pack_builder_builder import RoomPackBuilderBuilder
 from .static_room_pack_builder import StaticRoomPackBuilder
+from .inform_action_builder import InformActionBuilder
 
 
 class _A:
@@ -34,7 +35,10 @@ class _A:
 
 
 class _An:
-    ...
+
+    @property
+    def inform_action_builder(self) -> InformActionBuilder:
+        return InformActionBuilder()
 
 a = _A()
 an = _An()

@@ -1,19 +1,18 @@
 from .typing import (
-    ActionEnum,
+    Action,
     Command,
     EscapeRoomGame,
     GameObject,
     GameReceiver,
-    Interaction,
-    InteractionReceiver,
+    ActionReceiver,
     Room,
     RoomFactory,
     RoomPack,
-    TargetTypeEnum,
 )
 
 from .exception import (
-    EcsGameError,
+    ActionError,
+    EscGameError,
     NotFoundError,
     NotInteractableError,
 )
@@ -22,3 +21,8 @@ from .utils import (
     RoomPackBuilder
 )
 
+# TODO: Move actions into it's own submodule.
+# models should not be exposed directly
+from .model import (
+    InformAction
+)

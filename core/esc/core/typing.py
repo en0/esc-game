@@ -3,18 +3,7 @@ from abc import ABC, abstractmethod
 from enum import Enum, auto
 
 
-class TargetTypeEnum(Enum):
-    GAME_OBJECT = auto()
-    ROOM = auto()
-
-
-class ActionEnum(Enum):
-    INSPECT = auto()
-    INTERACT = auto()
-
-
-
-class InteractionReceiver(ABC):
+class ActionReceiver(ABC):
 
     @abstractmethod
     def begin_interaction(self, name: str) -> None:
@@ -25,18 +14,22 @@ class InteractionReceiver(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def collect_input(self, message: str, tag: str) -> str:
+    def collect_input(self, message: str, mime_type: str = None) -> str:
         raise NotImplementedError()
 
     @abstractmethod
-    def inform_result(self, message: str, tag: str) -> None:
+    def inform_result(self, message: str, mime_type: str = None) -> None:
         raise NotImplementedError()
 
 
-class Interaction(ABC):
+class Action(ABC):
 
     @abstractmethod
-    def interact(self, receiver: InteractionReceiver):
+    def get_name(self) -> str:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def trigger(self, owner: "GameObject", receiver: ActionReceiver):
         raise NotImplementedError()
 
 
@@ -47,11 +40,19 @@ class GameObject(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_details(self) -> str:
+    def get_summary(self) -> str:
         raise NotImplementedError()
 
     @abstractmethod
-    def get_summary(self) -> str:
+    def add_child(self, child: "GameObject") -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def remove_child(self, name: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_child(self, name: str) -> "GameObject":
         raise NotImplementedError()
 
     @abstractmethod
@@ -59,11 +60,15 @@ class GameObject(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def set_interaction(self, interaction: Interaction) -> None:
+    def add_action(self, action: Action) -> None:
         raise NotImplementedError()
 
     @abstractmethod
-    def interact(self, receiver: InteractionReceiver) -> None:
+    def list_action_names(self) -> List[str]:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def trigger_action(self, name: str, receiver: ActionReceiver) -> None:
         raise NotImplementedError()
 
 
@@ -108,23 +113,6 @@ class GameReceiver(ABC):
     def summarize_inspection(self, inspection_summary: str) -> None:
         raise NotImplementedError()
 
-    @abstractmethod
-    def notify_unknown_target(
-        self,
-        target_name: str,
-        target_type: TargetTypeEnum
-    ) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def notify_unknown_action(
-        self,
-        target_name: str,
-        target_type: TargetTypeEnum,
-        action: ActionEnum
-    ) -> None:
-        raise NotImplementedError()
-
 
 class Command(ABC):
 
@@ -140,7 +128,7 @@ class RoomPack(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def create_room(self, name: str) -> Room:
+    def create_room(self, name: str) -> GameObject:
         raise NotImplementedError()
 
 
@@ -151,7 +139,7 @@ class RoomFactory(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def create(self) -> Room:
+    def create(self) -> GameObject:
         raise NotImplementedError()
 
 
@@ -161,8 +149,9 @@ class EscapeRoomGame(ABC):
     def list_room_names(self) -> List[str]:
         raise NotImplementedError()
 
+    # list room names
     # load a game
-    # reset a game
-    # request_summary
-    #
+    # summarize the room
+    # inspect object
+    # interact object
 
