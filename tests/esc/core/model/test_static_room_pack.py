@@ -2,7 +2,7 @@ from unittest import TestCase, skip
 from unittest.mock import Mock, MagicMock
 from fixtures import a, an
 
-from esc.core import RoomFactory, Room, NotFoundError
+from esc.core import RoomFactory, GameObject, NotFoundError
 
 
 class StaticRoomPackTests(TestCase):
@@ -36,9 +36,9 @@ class StaticRoomPackTests(TestCase):
         with self.assertRaises(KeyError):
             room_pack.create_room("foo")
 
-    def _mock_factory(self, name: str, room: Room = None):
+    def _mock_factory(self, name: str, room: GameObject = None):
         mock = Mock(spec=RoomFactory)
         mock.get_name.return_value = name
-        mock.create.return_value = room or Mock(spec=Room)
+        mock.create.return_value = room or Mock(spec=GameObject)
         return mock
 

@@ -3,9 +3,7 @@ from .typing import (
     Command,
     EscapeRoomGame,
     GameObject,
-    GameReceiver,
     ActionReceiver,
-    Room,
     RoomFactory,
     RoomPack,
 )
@@ -17,12 +15,10 @@ from .exception import (
     NotInteractableError,
 )
 
-from .utils import (
+from .util import (
     RoomPackBuilder
 )
 
-# TODO: Move actions into it's own submodule.
-# models should not be exposed directly
-from .model import (
+from .action import (
     InformAction
 )

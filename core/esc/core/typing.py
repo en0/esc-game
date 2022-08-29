@@ -1,24 +1,58 @@
-from typing import List, Callable
+from typing import Dict, List, Callable, Set
 from abc import ABC, abstractmethod
-from enum import Enum, auto
+
+
+class Receiver(ABC):
+
+    @abstractmethod
+    def receive_object_action_list(self, object_names: Dict[str, List[str]]) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def inform_success(self, message: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def initialize_receiver(self, sender_name: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def shutdown_receiver(self, sender_name: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def collect_input(
+        self,
+        sender_name: str,
+        prompt: str,
+        hints: Set[str] = None
+    ) -> str:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def inform_response(
+        self,
+        sender_name: str,
+        message: str,
+    ) -> None:
+        raise NotImplementedError()
 
 
 class ActionReceiver(ABC):
 
     @abstractmethod
-    def begin_interaction(self, name: str) -> None:
+    def collect_input(
+        self,
+        prompt: str,
+        hints: Set[str] = None
+    ) -> str:
         raise NotImplementedError()
 
     @abstractmethod
-    def end_interaction(self, name: str) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def collect_input(self, message: str, mime_type: str = None) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def inform_result(self, message: str, mime_type: str = None) -> None:
+    def inform_response(
+        self,
+        message: str,
+    ) -> None:
         raise NotImplementedError()
 
 
@@ -26,6 +60,10 @@ class Action(ABC):
 
     @abstractmethod
     def get_name(self) -> str:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def set_owner(self) -> str:
         raise NotImplementedError()
 
     @abstractmethod
@@ -72,46 +110,7 @@ class GameObject(ABC):
         raise NotImplementedError()
 
 
-class Room(ABC):
-
-    @abstractmethod
-    def get_name(self) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def get_summary(self) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def add_game_object(self, game_object: GameObject) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def list_object_names(self) -> List[str]:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def get_game_object(self, game_object_name: str) -> GameObject:
-        raise NotImplementedError()
-
-
-class GameReceiver(ABC):
-
-    @abstractmethod
-    def enter_room(self, room_name: str) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def exit_room(self, room_name: str) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def summarize_room(self, room_summary: str) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def summarize_inspection(self, inspection_summary: str) -> None:
-        raise NotImplementedError()
+RoomCreator = Callable[None, GameObject]
 
 
 class Command(ABC):
@@ -144,14 +143,12 @@ class RoomFactory(ABC):
 
 
 class EscapeRoomGame(ABC):
-
-    @abstractmethod
-    def list_room_names(self) -> List[str]:
-        raise NotImplementedError()
+    ...
 
     # list room names
     # load a game
     # summarize the room
     # inspect object
     # interact object
+
 

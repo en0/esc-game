@@ -6,24 +6,9 @@ from .typing import (
     Command,
     GameObject,
     ActionReceiver,
-    Room,
     RoomFactory,
     RoomPack,
 )
-
-
-class InformAction(Action):
-
-    def __init__(self, name: str, message: str, mime_type: str) -> None:
-        self._name = name
-        self._message = message
-        self._mime_type = mime_type
-
-    def get_name(self) -> str:
-        return self._name
-
-    def trigger(self, owner: GameObject, receiver: ActionReceiver):
-        receiver.inform_result(self._message, self._mime_type)
 
 
 class BasicGameObject(GameObject):
@@ -65,6 +50,7 @@ class BasicGameObject(GameObject):
 
     def add_action(self, action: Action) -> None:
         self._actions[action.get_name()] = action
+        action.set_owner(self)
 
     def list_action_names(self) -> List[str]:
         return list(self._actions.keys())
@@ -73,34 +59,9 @@ class BasicGameObject(GameObject):
         if name not in self._actions:
             raise NotFoundError(name)
         try:
-            self._actions[name].trigger(self, receiver)
+            self._actions[name].trigger(receiver)
         except Exception:
             raise ActionError(self._name, name)
-
-
-class BasicRoom(Room):
-
-    def __init__(self, name: str) -> None:
-        self._name = name
-        self._game_objects = dict()
-
-    def get_name(self) -> str:
-        return self._name
-
-    def get_summary(self) -> str:
-        return " ".join([o.get_summary() for o in self._game_objects.values()])
-
-    def add_game_object(self, game_object: GameObject) -> None:
-        self._game_objects[game_object.get_name()] = game_object
-
-    def list_object_names(self) -> List[str]:
-        return list(self._game_objects.keys())
-
-    def get_game_object(self, game_object_name: str) -> GameObject:
-        try:
-            return self._game_objects[game_object_name]
-        except KeyError:
-            raise NotFoundError(self._name)
 
 
 class DelegateCommand(Command):
@@ -127,7 +88,7 @@ class StaticRoomPack(RoomPack):
     def list_room_names(self) -> List[str]:
         return list(self._room_factories.keys())
 
-    def create_room(self, name: str) -> Room:
+    def create_room(self, name: str) -> GameObject:
         try:
             factory = self._room_factories[name]
         except KeyError:

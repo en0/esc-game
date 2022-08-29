@@ -13,14 +13,14 @@ class RoomPackBuilderTests(TestCase):
         self.assertIsInstance(room_pack, RoomPack)
 
     def test_can_add_room(self):
-        room = a.basic_room_builder.with_name("foo").build()
+        room = a.basic_game_object_builder.with_name("foo").build()
         builder = a.room_pack_builder_builder.build()
         builder.with_room(room.get_name(), lambda: room)
         room_pack = builder.build()
         self.assertIsInstance(room_pack, RoomPack)
 
     def test_can_get_room_from_built_factory(self):
-        room = a.basic_room_builder.with_name("foo").build()
+        room = a.basic_game_object_builder.with_name("foo").build()
         builder = a.room_pack_builder_builder.build()
         builder.with_room(room.get_name(), lambda: room)
         room_pack = builder.build()

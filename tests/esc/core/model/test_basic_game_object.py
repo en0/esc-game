@@ -107,7 +107,7 @@ class BasicGameObjectTests(TestCase):
         game_obj = a.basic_game_object_builder.build()
         game_obj.add_action(action)
         game_obj.trigger_action("action", receiver)
-        action.trigger.assert_called_with(game_obj, receiver)
+        action.trigger.assert_called_with(receiver)
 
     def test_trigger_action_raises_not_found(self):
         receiver = Mock()
@@ -125,3 +125,10 @@ class BasicGameObjectTests(TestCase):
         with self.assertRaises(ActionError) as ex:
             game_obj.trigger_action("action", receiver)
 
+    def test_add_trigger_sets_owner(self):
+        receiver = Mock()
+        action = Mock(spec=Action)
+        action.get_name.return_value = "action"
+        game_obj = a.basic_game_object_builder.with_name("foo").build()
+        game_obj.add_action(action)
+        action.set_owner.assert_called_with(game_obj)
