@@ -71,16 +71,14 @@ class BasicGameObject(GameObject):
         self._actions[action.get_name()] = action
         action.set_owner(self)
 
+    def get_action(self, name: str) -> Action:
+        try:
+            return self._actions[name]
+        except KeyError:
+            raise ActionNotFoundError(self._name, name)
+
     def list_action_names(self) -> List[str]:
         return list(self._actions.keys())
-
-    def trigger_action(self, name: str, receiver: ActionReceiver) -> None:
-        if name not in self._actions:
-            raise ActionNotFoundError(self._name, name)
-        try:
-            self._actions[name].trigger(receiver)
-        except Exception:
-            raise ActionError(self._name, name)
 
 
 class DelegateCommand(Command):

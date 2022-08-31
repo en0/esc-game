@@ -102,38 +102,17 @@ class BasicGameObjectTests(TestCase):
 
         self.assertListEqual(game_obj.list_action_names(), ["action1", "action2"])
 
-    def test_trigger_action(self):
-        receiver = Mock()
-        action = Mock(spec=Action)
-        action.get_name.return_value = "action"
+    def test_get_action(self):
+        action1 = Mock(spec=Action)
+        action1.get_name.return_value = "action1"
         game_obj = a.basic_game_object_builder.build()
-        game_obj.add_action(action)
-        game_obj.trigger_action("action", receiver)
-        action.trigger.assert_called_with(receiver)
+        game_obj.add_action(action1)
+        self.assertIs(game_obj.get_action("action1"), action1)
 
-    def test_trigger_action_raises_not_found(self):
-        receiver = Mock()
+    def test_get_raises_action_not_found(self):
         game_obj = a.basic_game_object_builder.build()
         with self.assertRaises(ActionNotFoundError):
-            game_obj.trigger_action("no-exists", receiver)
-
-    def test_trigger_action_raises_interaction_error(self):
-        receiver = Mock()
-        action = Mock(spec=Action)
-        action.get_name.return_value = "action"
-        action.trigger.side_effect = KeyError()
-        game_obj = a.basic_game_object_builder.with_name("foo").build()
-        game_obj.add_action(action)
-        with self.assertRaises(ActionError) as ex:
-            game_obj.trigger_action("action", receiver)
-
-    def test_add_trigger_sets_owner(self):
-        receiver = Mock()
-        action = Mock(spec=Action)
-        action.get_name.return_value = "action"
-        game_obj = a.basic_game_object_builder.with_name("foo").build()
-        game_obj.add_action(action)
-        action.set_owner.assert_called_with(game_obj)
+            game_obj.get_action("action1")
 
     def test_get_property(self):
         game_obj = a.basic_game_object_builder.with_properties({

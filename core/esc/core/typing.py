@@ -1,4 +1,5 @@
-from typing import Dict, List, Callable, Set, Any
+from typing import Dict, List, Callable, Set, Any, Generator
+from contextlib import contextmanager
 from abc import ABC, abstractmethod
 
 
@@ -38,10 +39,44 @@ class Receiver(ABC):
         raise NotImplementedError()
 
 
+class InteractiveActionReceiver(ABC):
+
+    @abstractmethod
+    def collect_input(
+        self,
+        prompt: str,
+        hints: Set[str] = None
+    ) -> str:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def inform_response(
+        self,
+        message: str,
+    ) -> None:
+        raise NotImplementedError()
+
+
 class ActionReceiver(ABC):
 
     @abstractmethod
     def win(self, message: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def set_object_property(self, object_name: str, key: str, value: Any) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_object_property(self, object_name: str, key: str, value: Any) -> None:
+        raise NotImplementedError()
+
+    @contextmanager
+    @abstractmethod
+    def interactive_session(
+        self,
+        hits: Set[str] = None
+    ) -> Generator[InteractiveActionReceiver, None, None]:
         raise NotImplementedError()
 
     @abstractmethod
@@ -114,11 +149,11 @@ class GameObject(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def list_action_names(self) -> List[str]:
+    def get_action(self, name: str) -> Action:
         raise NotImplementedError()
 
     @abstractmethod
-    def trigger_action(self, name: str, receiver: ActionReceiver) -> None:
+    def list_action_names(self) -> List[str]:
         raise NotImplementedError()
 
 
