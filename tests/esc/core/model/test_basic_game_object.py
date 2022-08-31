@@ -88,7 +88,7 @@ class BasicGameObjectTests(TestCase):
         with self.assertRaises(ObjectNotFoundError):
             game_obj.remove_child('no-exist')
 
-    def test_list_action_names(self):
+    def test_list_actions(self):
         action1 = Mock(spec=Action)
         action2 = Mock(spec=Action)
 
@@ -100,7 +100,7 @@ class BasicGameObjectTests(TestCase):
         game_obj.add_action(action1)
         game_obj.add_action(action2)
 
-        self.assertListEqual(game_obj.list_action_names(), ["action1", "action2"])
+        self.assertListEqual(game_obj.list_actions(), ["action1", "action2"])
 
     def test_get_action(self):
         action1 = Mock(spec=Action)

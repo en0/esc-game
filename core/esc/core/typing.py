@@ -6,25 +6,21 @@ from abc import ABC, abstractmethod
 class Receiver(ABC):
 
     @abstractmethod
-    def receive_object_action_list(self, object_names: Dict[str, List[str]]) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
     def inform_win(self, message: str) -> None:
         raise NotImplementedError()
 
     @abstractmethod
-    def initialize_receiver(self, sender_name: str) -> None:
+    def start_interactive_session(self, sender: str, hints: Set[str]) -> None:
         raise NotImplementedError()
 
     @abstractmethod
-    def shutdown_receiver(self, sender_name: str) -> None:
+    def end_interactive_session(self, sender: str) -> None:
         raise NotImplementedError()
 
     @abstractmethod
     def collect_input(
         self,
-        sender_name: str,
+        sender: str,
         prompt: str,
         hints: Set[str] = None
     ) -> str:
@@ -33,7 +29,7 @@ class Receiver(ABC):
     @abstractmethod
     def inform_response(
         self,
-        sender_name: str,
+        sender: str,
         message: str,
     ) -> None:
         raise NotImplementedError()
@@ -68,14 +64,18 @@ class ActionReceiver(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_object_property(self, object_name: str, key: str, value: Any) -> None:
+    def get_object_property(self, object_name: str, key: str) -> None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def reveal_child_object(self, object_name: str, child_name: str) -> None:
         raise NotImplementedError()
 
     @contextmanager
     @abstractmethod
     def interactive_session(
         self,
-        hits: Set[str] = None
+        hints: Set[str] = None
     ) -> Generator[InteractiveActionReceiver, None, None]:
         raise NotImplementedError()
 
@@ -106,7 +106,7 @@ class Action(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def trigger(self, owner: "GameObject", receiver: ActionReceiver):
+    def trigger(self, receiver: ActionReceiver):
         raise NotImplementedError()
 
 
@@ -153,7 +153,7 @@ class GameObject(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def list_action_names(self) -> List[str]:
+    def list_actions(self) -> List[str]:
         raise NotImplementedError()
 
 
@@ -170,7 +170,7 @@ class Command(ABC):
 class RoomPack(ABC):
 
     @abstractmethod
-    def list_room_names(self) -> List[str]:
+    def list_rooms(self) -> List[str]:
         raise NotImplementedError()
 
     @abstractmethod
@@ -190,12 +190,21 @@ class RoomFactory(ABC):
 
 
 class EscapeRoomGame(ABC):
-    ...
 
-    # list room names
-    # load a game
-    # summarize the room
-    # inspect object
-    # interact object
+    @abstractmethod
+    def load_room(self, name: str) -> List[str]:
+        raise NotImplementedError()
 
+    @abstractmethod
+    def get_object_actions(self) -> Dict[str, List[str]]:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def make_action_command(
+        self,
+        object_name: str,
+        action_name: str,
+        using_object: str = None,
+    ) -> Command:
+        raise NotImplementedError()
 

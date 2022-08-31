@@ -1,9 +1,11 @@
 from .typing import (
     Action,
+    ActionReceiver,
     Command,
     EscapeRoomGame,
     GameObject,
-    ActionReceiver,
+    InteractiveActionReceiver,
+    Receiver,
     RoomFactory,
     RoomPack,
 )

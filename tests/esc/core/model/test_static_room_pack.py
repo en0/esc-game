@@ -9,13 +9,13 @@ class StaticRoomPackTests(TestCase):
 
     def test_list_room_names_returns_empty_list(self):
         room_pack = a.static_room_pack_builder.build()
-        self.assertListEqual(room_pack.list_room_names(), [])
+        self.assertListEqual(room_pack.list_rooms(), [])
 
     def test_list_room_names(self):
         names = ["foo", "bar", "baz"]
         mocks = [self._mock_factory(n) for n in names]
         room_pack = a.static_room_pack_builder.with_room_factories(mocks).build()
-        self.assertListEqual(room_pack.list_room_names(), names)
+        self.assertListEqual(room_pack.list_rooms(), names)
 
     def test_create_room(self):
         names = ["foo", "bar", "baz"]

@@ -1,4 +1,5 @@
-from typing import List, Dict, Callable, Any
+from typing import List, Dict, Callable, Any, Generator, Set
+from contextlib import contextmanager
 
 from .exception import (
     ActionError,
@@ -10,9 +11,11 @@ from .exception import (
 )
 from .typing import (
     Action,
+    ActionReceiver,
     Command,
     GameObject,
-    ActionReceiver,
+    InteractiveActionReceiver,
+    Receiver,
     RoomFactory,
     RoomPack,
 )
@@ -77,7 +80,7 @@ class BasicGameObject(GameObject):
         except KeyError:
             raise ActionNotFoundError(self._name, name)
 
-    def list_action_names(self) -> List[str]:
+    def list_actions(self) -> List[str]:
         return list(self._actions.keys())
 
 
@@ -102,7 +105,7 @@ class StaticRoomPack(RoomPack):
     def __init__(self, room_factories: List[RoomFactory]) -> None:
         self._room_factories = {f.get_name(): f for f in room_factories}
 
-    def list_room_names(self) -> List[str]:
+    def list_rooms(self) -> List[str]:
         return list(self._room_factories.keys())
 
     def create_room(self, name: str) -> GameObject:
