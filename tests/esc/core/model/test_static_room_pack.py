@@ -2,7 +2,7 @@ from unittest import TestCase, skip
 from unittest.mock import Mock, MagicMock
 from fixtures import a, an
 
-from esc.core import RoomFactory, GameObject, NotFoundError
+from esc.core import RoomFactory, GameObject, RoomPackNotFoundError
 
 
 class StaticRoomPackTests(TestCase):
@@ -26,7 +26,7 @@ class StaticRoomPackTests(TestCase):
 
     def test_create_room_raises_not_found(self):
         room_pack = a.static_room_pack_builder.build()
-        with self.assertRaises(NotFoundError):
+        with self.assertRaises(RoomPackNotFoundError):
             room_pack.create_room("no-exist")
 
     def test_create_room_does_not_hide_factory_exceptions(self):

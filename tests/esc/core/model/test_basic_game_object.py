@@ -4,11 +4,13 @@ from fixtures import a, an
 
 from esc.core import (
     Action,
-    GameObject,
-    ActionReceiver,
-    NotFoundError,
-    NotInteractableError,
     ActionError,
+    ActionReceiver,
+    ActionNotFoundError,
+    GameObject,
+    NotInteractableError,
+    ObjectNotFoundError,
+    PropertyNotFoundError,
 )
 
 
@@ -70,7 +72,7 @@ class BasicGameObjectTests(TestCase):
 
     def test_get_child_raises_not_found(self):
         game_obj = a.basic_game_object_builder.build()
-        with self.assertRaises(NotFoundError):
+        with self.assertRaises(ObjectNotFoundError):
             game_obj.get_child('no-exist')
 
     def test_remove_child(self):
@@ -78,12 +80,12 @@ class BasicGameObjectTests(TestCase):
         game_obj = a.basic_game_object_builder.build()
         game_obj.add_child(child)
         game_obj.remove_child('child-3')
-        with self.assertRaises(NotFoundError):
+        with self.assertRaises(ObjectNotFoundError):
             game_obj.get_child('child-3')
 
     def test_remove_child_raises_not_found(self):
         game_obj = a.basic_game_object_builder.build()
-        with self.assertRaises(NotFoundError):
+        with self.assertRaises(ObjectNotFoundError):
             game_obj.remove_child('no-exist')
 
     def test_list_action_names(self):
@@ -112,7 +114,7 @@ class BasicGameObjectTests(TestCase):
     def test_trigger_action_raises_not_found(self):
         receiver = Mock()
         game_obj = a.basic_game_object_builder.build()
-        with self.assertRaises(NotFoundError):
+        with self.assertRaises(ActionNotFoundError):
             game_obj.trigger_action("no-exists", receiver)
 
     def test_trigger_action_raises_interaction_error(self):
@@ -132,3 +134,22 @@ class BasicGameObjectTests(TestCase):
         game_obj = a.basic_game_object_builder.with_name("foo").build()
         game_obj.add_action(action)
         action.set_owner.assert_called_with(game_obj)
+
+    def test_get_property(self):
+        game_obj = a.basic_game_object_builder.with_properties({
+            "foo": "bar",
+            "baz": ["quz"]
+        }).build()
+        self.assertEqual(game_obj.get_property("foo"), "bar")
+        self.assertListEqual(game_obj.get_property("baz"), ["quz"])
+
+    def test_set_property(self):
+        game_obj = a.basic_game_object_builder.build()
+        game_obj.set_property("foo", "bar")
+        self.assertEqual(game_obj.get_property("foo"), "bar")
+
+    def test_empty_property_returns_not_found(self):
+        game_obj = a.basic_game_object_builder.build()
+        with self.assertRaises(PropertyNotFoundError):
+            game_obj.get_property("foo")
+

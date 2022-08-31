@@ -1,6 +1,13 @@
-from typing import List, Dict, Callable
+from typing import List, Dict, Callable, Any
 
-from .exception import NotInteractableError, NotFoundError, ActionError
+from .exception import (
+    ActionError,
+    ActionNotFoundError,
+    NotInteractableError,
+    ObjectNotFoundError,
+    PropertyNotFoundError,
+    RoomPackNotFoundError,
+)
 from .typing import (
     Action,
     Command,
@@ -17,11 +24,14 @@ class BasicGameObject(GameObject):
         self,
         name: str,
         summary: str,
-        children: List["GameObject"] = None
+        children: List["GameObject"] = None,
+        properties: Dict[str, Any] = None,
+
     ) -> None:
         self._name = name
         self._summary = summary
         self._children = {c.get_name(): c for c in children or []}
+        self._props = {k: v for k, v in properties.items()}
         self._actions = {}
 
     def get_name(self) -> str:
@@ -37,16 +47,25 @@ class BasicGameObject(GameObject):
         try:
             del self._children[name]
         except KeyError:
-            raise NotFoundError(name)
+            raise ObjectNotFoundError(name)
 
     def get_child(self, name: str) -> GameObject:
         try:
             return self._children[name]
         except KeyError:
-            raise NotFoundError(name)
+            raise ObjectNotFoundError(name)
 
     def get_children(self) -> List["GameObject"]:
         return list(self._children.values())
+
+    def get_property(self, key: str) -> Any:
+        try:
+            return self._props[key]
+        except KeyError:
+            raise PropertyNotFoundError(self._name, key)
+
+    def set_property(self, key: str, value: Any) -> Any:
+        self._props[key] = value
 
     def add_action(self, action: Action) -> None:
         self._actions[action.get_name()] = action
@@ -57,7 +76,7 @@ class BasicGameObject(GameObject):
 
     def trigger_action(self, name: str, receiver: ActionReceiver) -> None:
         if name not in self._actions:
-            raise NotFoundError(name)
+            raise ActionNotFoundError(self._name, name)
         try:
             self._actions[name].trigger(receiver)
         except Exception:
@@ -92,7 +111,7 @@ class StaticRoomPack(RoomPack):
         try:
             factory = self._room_factories[name]
         except KeyError:
-            raise NotFoundError(name)
+            raise RoomPackNotFoundError(name)
         else:
             return factory.create()
 

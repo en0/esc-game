@@ -1,4 +1,4 @@
-from typing import Dict, List, Callable, Set
+from typing import Dict, List, Callable, Set, Any
 from abc import ABC, abstractmethod
 
 
@@ -99,6 +99,14 @@ class GameObject(ABC):
 
     @abstractmethod
     def get_children(self) -> List["GameObject"]:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_property(self, key: str) -> Any:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def set_property(self, key: str, value: Any) -> Any:
         raise NotImplementedError()
 
     @abstractmethod

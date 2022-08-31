@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any, Dict
 from esc.core import GameObject
 from esc.core.model import BasicGameObject
 
@@ -12,6 +12,7 @@ class BasicGameObjectBuilder(BuilderBase[GameObject]):
             name=self._name,
             summary=self._summary,
             children=self._children,
+            properties=self._props,
         )
 
     def with_name(self, value: str) -> "GameObjectBuilder":
@@ -26,8 +27,17 @@ class BasicGameObjectBuilder(BuilderBase[GameObject]):
         self._children = value
         return self
 
+    def with_property(self, key: str, value: Any) -> "GameObjectBuilder":
+        self._props[key] = value
+        return self
+
+    def with_properties(self, values: Dict[str, Any]) -> "GameObjectBuilder":
+        self._props = {k: v for k, v in values.items()}
+        return self
+
     def __init__(self) -> None:
         self._name = "name"
         self._summary = "summary"
         self._children = None
+        self._props = dict()
 

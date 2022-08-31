@@ -10,9 +10,12 @@ from .typing import (
 
 from .exception import (
     ActionError,
+    ActionNotFoundError,
     EscGameError,
-    NotFoundError,
     NotInteractableError,
+    ObjectNotFoundError,
+    PropertyNotFoundError,
+    RoomPackNotFoundError,
 )
 
 from .util import (
