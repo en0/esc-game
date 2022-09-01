@@ -17,7 +17,3 @@ class InformActionTests(TestCase):
         action = an.inform_action_builder.with_name("action").build()
         self.assertEqual(action.get_name(), "action")
 
-    def test_set_owner(self):
-        mock_owner = Mock(spec=GameObject)
-        action = an.inform_action_builder.with_name("action").build()
-        action.set_owner(mock_owner)

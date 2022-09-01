@@ -26,22 +26,17 @@ class BasicGameObject(GameObject):
     def __init__(
         self,
         name: str,
-        summary: str,
         children: List["GameObject"] = None,
         properties: Dict[str, Any] = None,
 
     ) -> None:
         self._name = name
-        self._summary = summary
         self._children = {c.get_name(): c for c in children or []}
-        self._props = {k: v for k, v in properties.items()}
+        self._props = {k: v for k, v in (properties or {}).items()}
         self._actions = {}
 
     def get_name(self) -> str:
         return self._name
-
-    def get_summary(self) -> str:
-        return self._summary
 
     def add_child(self, child: GameObject) -> None:
         self._children[child.get_name()] = child
@@ -72,7 +67,6 @@ class BasicGameObject(GameObject):
 
     def add_action(self, action: Action) -> None:
         self._actions[action.get_name()] = action
-        action.set_owner(self)
 
     def get_action(self, name: str) -> Action:
         try:

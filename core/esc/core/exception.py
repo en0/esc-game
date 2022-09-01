@@ -2,6 +2,12 @@ class EscGameError(Exception):
     ...
 
 
+class ConfigurationError(EscGameError):
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+
+
 class NotInteractableError(EscGameError):
 
     object_name: str

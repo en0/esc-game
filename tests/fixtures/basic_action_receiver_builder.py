@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 from esc.core import ActionReceiver, Receiver, GameObject
-from esc.core.usecase import ActionReceiverInteractor
+from esc.core.interactor import ActionReceiverInteractor
 
 from .base import BuilderBase
 from .basic_game_object_builder import BasicGameObjectBuilder

@@ -23,7 +23,6 @@ class BasicGameObjectTests(TestCase):
     def test_fixtures_builder_with(self):
         builder = a.basic_game_object_builder
         builder.with_name("fixture-name")
-        builder.with_summary("fixture-summary")
         builder.with_children([])
         self.assertIsInstance(builder.build(), GameObject)
 
@@ -35,10 +34,6 @@ class BasicGameObjectTests(TestCase):
     def test_get_name_returns_name(self):
         game_obj = a.basic_game_object_builder.with_name("test-name").build()
         self.assertEqual(game_obj.get_name(), "test-name")
-
-    def test_get_summary_returns_summary(self):
-        game_obj = a.basic_game_object_builder.with_summary("test-summary").build()
-        self.assertEqual(game_obj.get_summary(), "test-summary")
 
     def test_children_can_be_none(self):
         game_obj = a.basic_game_object_builder.with_children(None).build()

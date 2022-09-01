@@ -13,6 +13,7 @@ from .typing import (
 from .exception import (
     ActionError,
     ActionNotFoundError,
+    ConfigurationError,
     EscGameError,
     NotInteractableError,
     ObjectNotFoundError,
@@ -20,10 +21,12 @@ from .exception import (
     RoomPackNotFoundError,
 )
 
-from .util import (
-    RoomPackBuilder
+from .builder import (
+    EscapeRoomGameBuilder,
+    GameObjectBuilder,
+    RoomPackBuilder,
 )
 
 from .action import (
-    InformAction
+    InformAction,
 )

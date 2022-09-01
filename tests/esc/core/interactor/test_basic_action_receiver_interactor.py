@@ -81,3 +81,5 @@ class BasicActionReceiverTests(TestCase):
             interactor.inform_response("This is a message.")
         self.receiver.inform_response.assert_called_with("thing1", "This is a message.")
 
+    def test_get_owner_name(self):
+        self.assertEqual(self.interactor.get_owner_name(), self.thing1.get_name())

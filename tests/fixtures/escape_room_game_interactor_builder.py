@@ -1,5 +1,5 @@
 from esc.core import EscapeRoomGame, RoomPack, Receiver
-from esc.core.usecase import EscapeRoomGameInteractor
+from esc.core.interactor import EscapeRoomGameInteractor
 
 from .base import BuilderBase
 

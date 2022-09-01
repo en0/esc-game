@@ -60,6 +60,10 @@ class ActionReceiver(ABC):
         raise NotImplementedError()
 
     @abstractmethod
+    def get_owner_name(self) -> str:
+        raise NotImplementedError()
+
+    @abstractmethod
     def set_object_property(self, object_name: str, key: str, value: Any) -> None:
         raise NotImplementedError()
 
@@ -102,10 +106,6 @@ class Action(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def set_owner(self) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
     def trigger(self, receiver: ActionReceiver):
         raise NotImplementedError()
 
@@ -114,10 +114,6 @@ class GameObject(ABC):
 
     @abstractmethod
     def get_name(self) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def get_summary(self) -> str:
         raise NotImplementedError()
 
     @abstractmethod

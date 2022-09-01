@@ -18,13 +18,16 @@ class EscapeRoomGameInteractor(EscapeRoomGame):
     def __init__(self, room_pack: RoomPack, receiver: Receiver) -> None:
         self._room_pack = room_pack
         self._receiver = receiver
-        self._room = None
+        self._room_container = None
 
     def load_room(self, name: str) -> List[str]:
-        self._room = self._room_pack.create_room(name)
+        self._room_container = self._room_pack.create_room(name)
 
     def get_object_actions(self) -> Dict[str, List[str]]:
-        raise NotImplementedError()
+        return {
+            k.get_name(): k.list_actions()
+            for k in self._room_container.get_children()
+        }
 
     def make_action_command(
         self,
@@ -32,12 +35,13 @@ class EscapeRoomGameInteractor(EscapeRoomGame):
         action_name: str,
         using_object: str = None,
     ) -> Command:
-        obj = self._room.get_child(object_name)
+        obj = self._room_container.get_child(object_name)
         act = obj.get_action(action_name)
         return DelegateCommand(self._trigger_action, obj, act)
 
-    def _trigger_action(game_object: GameObject, action: Action):
-        raise NotImplementedError()
+    def _trigger_action(self, game_object: GameObject, action: Action):
+        receiver = ActionReceiverInteractor(self._receiver, self._room_container, game_object)
+        action.trigger(receiver)
 
 
 class ActionReceiverInteractor(ActionReceiver, InteractiveActionReceiver):
@@ -49,6 +53,9 @@ class ActionReceiverInteractor(ActionReceiver, InteractiveActionReceiver):
 
     def win(self, message: str) -> None:
         self._receiver.inform_win(message)
+
+    def get_owner_name(self) -> str:
+        return self._sender_name
 
     def set_object_property(self, object_name: str, key: str, value: Any) -> None:
         obj = self._container.get_child(object_name)
