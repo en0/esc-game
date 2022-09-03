@@ -30,7 +30,7 @@ class GameInteractorTests(TestCase):
         room.add_action(
             an.inform_action_builder
               .with_name("inspect")
-              .with_message("This is a room.")
+              .with_default_message("This is a room.")
               .build()
         )
         container = (
@@ -48,13 +48,13 @@ class GameInteractorTests(TestCase):
              .with_action(
                  an.inform_action_builder
                    .with_name("inspect")
-                   .with_message("this is a chair")
+                   .with_default_message("this is a chair")
                    .build()
              )
              .with_action(
                  an.inform_action_builder
                    .with_name("foo")
-                   .with_message("this is a chair")
+                   .with_default_message("this is a chair")
                    .build()
              )
              .build()
