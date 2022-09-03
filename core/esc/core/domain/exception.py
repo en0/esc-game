@@ -43,6 +43,17 @@ class ActionNotFoundError(NotFoundError):
         super().__init__(f"Object {object_name} has no action {action_name}.")
 
 
+class ActionError(EscGameError):
+
+    object_name: str
+    action_name: str
+
+    def __init__(self, object_name: str, action_name: str) -> None:
+        self.object_name = object_name
+        self.action_name = action_name
+        super().__init__(f"Action {action_name} encountered an error when called on {object_name}.")
+
+
 class RoomPackNotFoundError(NotFoundError):
 
     room_name: str

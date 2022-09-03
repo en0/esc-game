@@ -1,6 +1,7 @@
 from typing import List, Dict, Set, Any, Iterator
 from .domain import (
     ActionApi,
+    ActionError,
     EscapeRoomGame,
     GameObject,
     Interaction,
@@ -35,14 +36,21 @@ class EscapeRoomGameInteractor(EscapeRoomGame):
         action = game_object.get_action(action_name)
         receiver = ActionReceiverInteractor(self._room_container, game_object)
         generator = action.trigger(receiver)
-        return ActionInteractor(generator)
+        return ActionInteractor(generator, object_name, action_name)
 
 
 class ActionInteractor(Interaction):
 
-    def __init__(self, generator: InteractionResponseGenerator) -> None:
+    def __init__(
+        self,
+        generator: InteractionResponseGenerator,
+        object_name: str,
+        action_name: str,
+    ) -> None:
         self._gen = generator
         self._current = None
+        self._object_name = object_name
+        self._action_name = action_name
         self._input = None
 
     def __iter__(self) -> Iterator[Interaction]:
@@ -50,15 +58,31 @@ class ActionInteractor(Interaction):
 
     def __next__(self) -> Interaction:
         if self._current is None:
-            self._current = next(self._gen)
+            self._set_current()
         elif self._current.get_type() == InteractionResponseType.DONE:
             raise StopIteration()
         elif self._current.get_type() == InteractionResponseType.COLLECT_INPUT:
-            self._current = self._gen.send(self._input)
+            self._set_current_and_send()
         else:
-            self._current = next(self._gen)
+            self._set_current()
         self._input = None
         return self
+
+    def _set_current(self):
+        try:
+            self._current = next(self._gen)
+        except StopIteration:
+            raise
+        except Exception as ex:
+            raise ActionError(self._object_name, self._action_name) from ex
+
+    def _set_current_and_send(self):
+        try:
+            self._current = self._gen.send(self._input)
+        except StopIteration:
+            raise
+        except Exception as ex:
+            raise ActionError(self._object_name, self._action_name) from ex
 
     def inform_input(self, value: str) -> None:
         self._input = value

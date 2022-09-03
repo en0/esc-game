@@ -7,6 +7,7 @@ from .builder import (
 from .domain import (
     Action,
     ActionApi,
+    ActionError,
     ActionNotFoundError,
     CollectInputInteractionResponse,
     CompleteInteractionResponse,

@@ -2,7 +2,7 @@ from unittest import TestCase, skip
 from unittest.mock import Mock
 from fixtures import a, an
 
-from esc.core import InteractionResponseType, InteractionResponse
+from esc.core import InteractionResponseType, InteractionResponse, ActionError
 from esc.core.domain.action import (
     CollectInputInteractionResponse,
     CompleteInteractionResponse,
@@ -21,6 +21,7 @@ class ActionInteractorTests(TestCase):
             CompleteInteractionResponse()
         ]
         self.inputs = []
+        self.throw = False
 
     def test_get_message(self):
         interaction = self._get_interaction()
@@ -56,6 +57,12 @@ class ActionInteractorTests(TestCase):
                 actual.append(None)
         self.assertListEqual(self.inputs, actual)
 
+    def test_raises_script_errors(self):
+        self.throw = True
+        interaction = self._get_interaction()
+        with self.assertRaises(ActionError):
+            next(interaction)
+
     def _get_interaction(self):
         return (
             an.action_interactor_builder
@@ -65,7 +72,9 @@ class ActionInteractorTests(TestCase):
 
     def _fake_interactions(self):
         for response in self.responses:
-            if response.get_type() == InteractionResponseType.COLLECT_INPUT:
+            if self.throw:
+                raise RuntimeError()
+            elif response.get_type() == InteractionResponseType.COLLECT_INPUT:
                 ans = yield response
                 self.inputs.append(ans)
             else:

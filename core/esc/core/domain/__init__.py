@@ -13,6 +13,7 @@ from .typing import (
 )
 
 from .exception import (
+    ActionError,
     ActionNotFoundError,
     ConfigurationError,
     EscGameError,
