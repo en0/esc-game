@@ -7,18 +7,19 @@ from .base import BuilderBase
 
 class BasicGameObjectBuilder(BuilderBase[GameObject]):
 
-    def build(self) -> GameObject:
-        obj = BasicGameObject(
-            name=self._name,
-            children=self._children,
-            properties=self._props,
-        )
-        for a in self._actions:
-            obj.add_action(a)
-        return obj
+    def __init__(self) -> None:
+        self._name = "name"
+        self._children = None
+        self._props = dict()
+        self._actions = list()
+        self._aliases = list()
 
     def with_name(self, value: str) -> "GameObjectBuilder":
         self._name = value
+        return self
+
+    def with_alias(self, value: str) -> "GameObjectBuilder":
+        self._aliases.append(value)
         return self
 
     def with_children(self, value: List[GameObject]) -> "GameObjectBuilder":
@@ -37,9 +38,13 @@ class BasicGameObjectBuilder(BuilderBase[GameObject]):
         self._actions.append(action)
         return self
 
-    def __init__(self) -> None:
-        self._name = "name"
-        self._children = None
-        self._props = dict()
-        self._actions = list()
-
+    def build(self) -> GameObject:
+        obj = BasicGameObject(
+            name=self._name,
+            aliases=self._aliases,
+            children=self._children,
+            properties=self._props,
+        )
+        for a in self._actions:
+            obj.add_action(a)
+        return obj

@@ -54,6 +54,14 @@ class GameObjectBuilderTests(TestCase):
         go = builder.build()
         self.assertEqual(go.get_action("bar"), mock)
 
+    def test_aliases(self):
+        builder = a.game_object_builder_builder.build()
+        builder.with_name("foo")
+        builder.with_alias("bar")
+        builder.with_alias("baz")
+        go = builder.build()
+        self.assertListEqual(go.get_aliases(), ["bar", "baz"])
+
     def test_with_name_returns_self(self):
         builder = a.game_object_builder_builder.build()
         self.assertIs(builder.with_name("foo"), builder)
@@ -74,3 +82,6 @@ class GameObjectBuilderTests(TestCase):
         builder = a.game_object_builder_builder.build()
         self.assertIs(builder.with_action("foo"), builder)
 
+    def test_with_alias(self):
+        builder = a.game_object_builder_builder.build()
+        self.assertIs(builder.with_alias("foo"), builder)

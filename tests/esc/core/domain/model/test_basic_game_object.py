@@ -125,3 +125,43 @@ class BasicGameObjectTests(TestCase):
         with self.assertRaises(PropertyNotFoundError):
             game_obj.get_property("foo")
 
+    def test_get_aliases(self):
+        game_obj = (
+            a.basic_game_object_builder
+             .with_name("foo")
+             .with_alias("bar")
+             .with_alias("baz")
+             .build()
+        )
+        self.assertListEqual(game_obj.get_aliases(), ["bar", "baz"])
+
+    def test_get_child_by_alias(self):
+        game_obj = (
+            a.basic_game_object_builder
+             .with_name("foo")
+             .with_alias("bar")
+             .with_alias("baz")
+             .build()
+        )
+        container = (
+            a.basic_game_object_builder
+             .with_children([game_obj])
+             .build()
+        )
+        result = container.get_child("bar")
+        self.assertIs(result, game_obj)
+
+    def test_del_child_by_alias(self):
+        game_obj = (
+            a.basic_game_object_builder
+             .with_name("foo")
+             .with_alias("bar")
+             .with_alias("baz")
+             .build()
+        )
+        container = (
+            a.basic_game_object_builder
+             .with_children([game_obj])
+             .build()
+        )
+        container.remove_child("bar")

@@ -23,29 +23,43 @@ class BasicGameObject(GameObject):
     def __init__(
         self,
         name: str,
+        aliases: List[str] = None,
         children: List["GameObject"] = None,
         properties: Dict[str, Any] = None,
 
     ) -> None:
-        self._name = name
-        self._children = {c.get_name(): c for c in children or []}
-        self._props = {k: v for k, v in (properties or {}).items()}
         self._actions = {}
+        self._aliases = aliases or []
+        self._children = {}
+        self._children_lookup = {}
+        self._name = name
+        self._props = {k: v for k, v in (properties or {}).items()}
+        for child in (children or []):
+            self.add_child(child)
 
     def get_name(self) -> str:
         return self._name
 
+    def get_aliases(self) -> List[str]:
+        return list(self._aliases)
+
     def add_child(self, child: GameObject) -> None:
-        self._children[child.get_name()] = child
+        name = child.get_name()
+        self._children[name] = child
+        self._children_lookup[name] = name
+        for alias in child.get_aliases():
+            self._children_lookup[alias] = name
 
     def remove_child(self, name: str) -> None:
         try:
+            name = self._children_lookup[name]
             del self._children[name]
         except KeyError:
             raise ObjectNotFoundError(name)
 
     def get_child(self, name: str) -> GameObject:
         try:
+            name = self._children_lookup[name]
             return self._children[name]
         except KeyError:
             raise ObjectNotFoundError(name)

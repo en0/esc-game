@@ -17,12 +17,17 @@ class GameObjectBuilder:
 
     def __init__(self) -> None:
         self._actions = []
+        self._aliases = []
         self._children = []
         self._name = None
         self._props = {}
 
     def with_name(self, value: str) -> "GameObjectBuilder":
         self._name = value
+        return self
+
+    def with_alias(self, value: str) -> "GameObjectBuilder":
+        self._aliases.append(value)
         return self
 
     def with_children(self, value: List[GameObject]) -> "GameObjectBuilder":
@@ -45,7 +50,12 @@ class GameObjectBuilder:
     def build(self) -> GameObject:
         if self._name is None:
             raise ConfigurationError("Name is required to build a game object.")
-        go = BasicGameObject(self._name, list(self._children), self._props)
+        go = BasicGameObject(
+            name=self._name,
+            aliases=self._aliases,
+            children=list(self._children),
+            properties=self._props
+        )
         for action in self._actions:
             go.add_action(action)
         return go

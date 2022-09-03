@@ -99,6 +99,10 @@ class GameObject(ABC):
         raise NotImplementedError()
 
     @abstractmethod
+    def get_aliases(self) -> List[str]:
+        raise NotImplementedError()
+
+    @abstractmethod
     def add_child(self, child: "GameObject") -> None:
         raise NotImplementedError()
 
