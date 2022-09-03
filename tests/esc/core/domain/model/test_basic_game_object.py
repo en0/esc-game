@@ -4,11 +4,9 @@ from fixtures import a, an
 
 from esc.core import (
     Action,
-    ActionError,
-    ActionReceiver,
+    ActionApi,
     ActionNotFoundError,
     GameObject,
-    NotInteractableError,
     ObjectNotFoundError,
     PropertyNotFoundError,
 )

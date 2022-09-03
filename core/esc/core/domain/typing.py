@@ -1,63 +1,32 @@
-from typing import Dict, List, Callable, Set, Any, Generator
-from contextlib import contextmanager
 from abc import ABC, abstractmethod
+from enum import Enum, auto
+from typing import (
+    Dict,
+    List,
+    Callable,
+    Set,
+    Any,
+    Generator,
+    Iterator,
+)
 
 
-class Receiver(ABC):
-
-    @abstractmethod
-    def inform_win(self, message: str) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def start_interactive_session(self, sender: str, hints: Set[str]) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def end_interactive_session(self, sender: str) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def collect_input(
-        self,
-        sender: str,
-        prompt: str,
-        hints: Set[str] = None
-    ) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def inform_response(
-        self,
-        sender: str,
-        message: str,
-    ) -> None:
-        raise NotImplementedError()
+RoomCreator = Callable[[None], "GameObject"]
+InteractionResponseGenerator = Generator[
+    "InteractionResponse",
+    "InteractionResponse",
+    "InteractionResponse",
+]
 
 
-class InteractiveActionReceiver(ABC):
-
-    @abstractmethod
-    def collect_input(
-        self,
-        prompt: str,
-        hints: Set[str] = None
-    ) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
-    def inform_response(
-        self,
-        message: str,
-    ) -> None:
-        raise NotImplementedError()
+class InteractionResponseType(Enum):
+    DONE = auto()
+    COLLECT_INPUT = auto()
+    INFORM_RESULT = auto()
+    INFORM_WIN = auto()
 
 
-class ActionReceiver(ABC):
-
-    @abstractmethod
-    def win(self, message: str) -> None:
-        raise NotImplementedError()
+class ActionApi(ABC):
 
     @abstractmethod
     def get_owner_name(self) -> str:
@@ -75,27 +44,34 @@ class ActionReceiver(ABC):
     def reveal_child_object(self, object_name: str, child_name: str) -> None:
         raise NotImplementedError()
 
-    @contextmanager
+
+class InteractionResponse(ABC):
+
     @abstractmethod
-    def interactive_session(
-        self,
-        hints: Set[str] = None
-    ) -> Generator[InteractiveActionReceiver, None, None]:
+    def get_type(self) -> InteractionResponseType:
         raise NotImplementedError()
 
     @abstractmethod
-    def collect_input(
-        self,
-        prompt: str,
-        hints: Set[str] = None
-    ) -> str:
+    def get_message(self) -> str:
         raise NotImplementedError()
 
     @abstractmethod
-    def inform_response(
-        self,
-        message: str,
-    ) -> None:
+    def get_hits(self) -> Set[str]:
+        raise NotImplementedError()
+
+
+class Interaction(InteractionResponse):
+
+    @abstractmethod
+    def __iter__(self) -> Iterator["Interaction"]:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def __next__(self) -> "Interaction":
+        raise NotImplementedError()
+
+    @abstractmethod
+    def inform_input(self, value: str) -> None:
         raise NotImplementedError()
 
 
@@ -106,7 +82,7 @@ class Action(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def trigger(self, receiver: ActionReceiver):
+    def trigger(self, receiver: ActionApi) -> InteractionResponseGenerator:
         raise NotImplementedError()
 
 
@@ -153,16 +129,6 @@ class GameObject(ABC):
         raise NotImplementedError()
 
 
-RoomCreator = Callable[None, GameObject]
-
-
-class Command(ABC):
-
-    @abstractmethod
-    def execute(self):
-        raise NotImplementedError()
-
-
 class RoomPack(ABC):
 
     @abstractmethod
@@ -196,11 +162,11 @@ class EscapeRoomGame(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def make_action_command(
+    def interact(
         self,
         object_name: str,
         action_name: str,
         using_object: str = None,
-    ) -> Command:
+    ) -> Interaction:
         raise NotImplementedError()
 

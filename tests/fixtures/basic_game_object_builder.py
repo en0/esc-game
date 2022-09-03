@@ -1,6 +1,6 @@
 from typing import List, Any, Dict
 from esc.core import GameObject, Action
-from esc.core.model import BasicGameObject
+from esc.core.domain.model import BasicGameObject
 
 from .base import BuilderBase
 

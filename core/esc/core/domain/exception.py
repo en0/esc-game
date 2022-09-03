@@ -8,15 +8,6 @@ class ConfigurationError(EscGameError):
         super().__init__(message)
 
 
-class NotInteractableError(EscGameError):
-
-    object_name: str
-
-    def __init__(self, object_name: str) -> None:
-        self.object_name = object_name
-        super().__init__(f"Object not interactable")
-
-
 class NotFoundError(EscGameError):
     ...
 
@@ -59,15 +50,4 @@ class RoomPackNotFoundError(NotFoundError):
     def __init__(self, room_name: str) -> None:
         self.room_name = room_name
         super().__init__(f"Room {room_name} not found.")
-
-
-class ActionError(EscGameError):
-
-    object_name: str
-    action_name: str
-
-    def __init__(self, object_name: str, action_name: str) -> None:
-        self.object_name = object_name
-        self.action_name = action_name
-        super().__init__(f"Unexpected Action Error.")
 

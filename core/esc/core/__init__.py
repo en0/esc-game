@@ -1,32 +1,30 @@
-from .typing import (
-    Action,
-    ActionReceiver,
-    Command,
-    EscapeRoomGame,
-    GameObject,
-    InteractiveActionReceiver,
-    Receiver,
-    RoomFactory,
-    RoomPack,
-)
-
-from .exception import (
-    ActionError,
-    ActionNotFoundError,
-    ConfigurationError,
-    EscGameError,
-    NotInteractableError,
-    ObjectNotFoundError,
-    PropertyNotFoundError,
-    RoomPackNotFoundError,
-)
-
 from .builder import (
     EscapeRoomGameBuilder,
     GameObjectBuilder,
     RoomPackBuilder,
 )
 
-from .action import (
+from .domain import (
+    Action,
+    ActionApi,
+    ActionNotFoundError,
+    CollectInputInteractionResponse,
+    CompleteInteractionResponse,
+    ConfigurationError,
+    EscGameError,
+    EscapeRoomGame,
+    GameObject,
     InformAction,
+    InformResultInteractionResponse,
+    InformWinInteractionResponse,
+    Interaction,
+    InteractionResponse,
+    InteractionResponseGenerator,
+    InteractionResponseType,
+    ObjectNotFoundError,
+    PropertyNotFoundError,
+    RoomFactory,
+    RoomPack,
+    RoomPackNotFoundError,
 )
+

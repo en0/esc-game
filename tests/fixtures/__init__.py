@@ -1,12 +1,12 @@
+from .action_interactor_builder import ActionInteractorBuilder
 from .basic_action_receiver_builder import ActionReceiverInteractorBuilder
 from .basic_game_object_builder import BasicGameObjectBuilder
-from .delegate_command_builder import DelegateCommandBuilder
+from .escape_room_game_builder_builder import EscapeRoomGameBuilderBuilder
 from .escape_room_game_interactor_builder import EscapeRoomGameInteractorBuilder
+from .game_object_builder_builder import GameObjectBuilderBuidler
 from .inform_action_builder import InformActionBuilder
 from .room_pack_builder_builder import RoomPackBuilderBuilder
 from .static_room_pack_builder import StaticRoomPackBuilder
-from .escape_room_game_builder_builder import EscapeRoomGameBuilderBuilder
-from .game_object_builder_builder import GameObjectBuilderBuidler
 
 
 class _A:
@@ -18,10 +18,6 @@ class _A:
     @property
     def game_object_builder_builder(self) -> GameObjectBuilderBuidler:
         return GameObjectBuilderBuidler()
-
-    @property
-    def delegate_command_builder(self) -> DelegateCommandBuilder:
-        return DelegateCommandBuilder()
 
     @property
     def game_interactor_builder(self) -> EscapeRoomGameInteractorBuilder:
@@ -49,6 +45,10 @@ class _An:
     @property
     def escape_room_game_builder_builder(self) -> EscapeRoomGameBuilderBuilder:
         return EscapeRoomGameBuilderBuilder()
+
+    @property
+    def action_interactor_builder(self) -> ActionInteractorBuilder:
+        return ActionInteractorBuilder()
 
 a = _A()
 an = _An()

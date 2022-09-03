@@ -1,21 +1,18 @@
-from typing import List, Dict, Callable, Any, Generator, Set
-from contextlib import contextmanager
+from typing import List, Dict, Any, Set
 
 from .exception import (
-    ActionError,
     ActionNotFoundError,
-    NotInteractableError,
     ObjectNotFoundError,
     PropertyNotFoundError,
     RoomPackNotFoundError,
 )
 from .typing import (
     Action,
-    ActionReceiver,
-    Command,
+    ActionApi,
     GameObject,
-    InteractiveActionReceiver,
-    Receiver,
+    InteractionResponse,
+    InteractionResponseGenerator,
+    InteractionResponseType,
     RoomFactory,
     RoomPack,
 )
@@ -78,20 +75,45 @@ class BasicGameObject(GameObject):
         return list(self._actions.keys())
 
 
-class DelegateCommand(Command):
-
+class _InteractionBase(InteractionResponse):
     def __init__(
-        self,
-        delegate: Callable,
-        *args: List,
-        **kwargs: Dict
+            self,
+            interaction_type: InteractionResponseType,
+            message: str,
+            hints: Set[str] = None,
     ) -> None:
-        self._delegate = delegate
-        self._args = args
-        self._kwargs = kwargs
+        self._type = interaction_type
+        self._message = message
+        self._hints = hints or set()
 
-    def execute(self):
-        self._delegate(*self._args, **self._kwargs)
+    def get_type(self) -> InteractionResponseType:
+        return self._type
+
+    def get_message(self) -> str:
+        return self._message
+
+    def get_hits(self) -> Set[str]:
+        return self._hints
+
+
+class CompleteInteractionResponse(_InteractionBase):
+    def __init__(self) -> None:
+        super().__init__(InteractionResponseType.DONE, None, None)
+
+
+class CollectInputInteractionResponse(_InteractionBase):
+    def __init__(self, message: str, hints: Set[str] = None) -> None:
+        super().__init__(InteractionResponseType.COLLECT_INPUT, message, hints)
+
+
+class InformResultInteractionResponse(_InteractionBase):
+    def __init__(self, message: str, hints: Set[str] = None) -> None:
+        super().__init__(InteractionResponseType.INFORM_RESULT, message, hints)
+
+
+class InformWinInteractionResponse(_InteractionBase):
+    def __init__(self, message: str) -> None:
+        super().__init__(InteractionResponseType.INFORM_WIN, message, None)
 
 
 class StaticRoomPack(RoomPack):
@@ -109,4 +131,3 @@ class StaticRoomPack(RoomPack):
             raise RoomPackNotFoundError(name)
         else:
             return factory.create()
-

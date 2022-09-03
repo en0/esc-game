@@ -1,15 +1,15 @@
-from typing import List, Callable, Any
-from .exception import ConfigurationError
-from .model import StaticRoomPack, BasicGameObject
+from typing import List, Any
 from .interactor import EscapeRoomGameInteractor
-from .typing import (
+from .domain import (
     Action,
+    BasicGameObject,
+    ConfigurationError,
     EscapeRoomGame,
     GameObject,
-    Receiver,
     RoomCreator,
     RoomFactory,
     RoomPack,
+    StaticRoomPack,
 )
 
 
@@ -71,6 +71,7 @@ class RoomPackBuilder:
     def with_room_container(self, name: str, creator: RoomCreator) -> "RoomPackBuilder":
         factory = RoomPackBuilder._DelegateRoomFactory(name, creator)
         self._factories.append(factory)
+        return self
 
     def build(self) -> RoomPack:
         return StaticRoomPack(self._factories)
@@ -80,15 +81,12 @@ class EscapeRoomGameBuilder:
 
     def __init__(self) -> None:
         self._room_pack = None
-        self._receiver = None
 
     def with_room_pack(self, value: RoomPack) -> "EscapeRoomGameBuilder":
         self._room_pack = value
-
-    def with_receiver(self, value: Receiver) -> "EscapeRoomGameBuilder":
-        self._receiver = value
+        return self
 
     def build(self) -> EscapeRoomGame:
-        if self._receiver and self._room_pack:
-            return EscapeRoomGameInteractor(self._room_pack, self._receiver)
-        raise ConfigurationError("You must specifiy a Receiver and a RoomPack")
+        if self._room_pack:
+            return EscapeRoomGameInteractor(self._room_pack)
+        raise ConfigurationError("You must specifiy a RoomPack")

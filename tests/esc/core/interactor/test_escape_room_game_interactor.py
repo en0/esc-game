@@ -2,20 +2,17 @@ from unittest import TestCase, skip
 from unittest.mock import Mock
 from fixtures import a, an
 
-from esc.core import Receiver, RoomPack, Command
+from esc.core import RoomPack
 
 
 class GameInteractorTests(TestCase):
 
     def setUp(self):
-        receiver = Mock(spec=Receiver)
         room_pack = self._make_room_pack()
         builder = a.game_interactor_builder
-        builder.with_receiver(receiver)
         builder.with_room_pack(room_pack)
         game = builder.build()
         self.game = game
-        self.receiver = receiver
         self.room_pack = room_pack
 
     def _make_room_pack(self):
@@ -80,15 +77,10 @@ class GameInteractorTests(TestCase):
         )
         return container
 
-    def test_make_action_command(self):
-        self.game.load_room("room1")
-        cmd = self.game.make_action_command("room", "inspect")
-        self.assertIsInstance(cmd, Command)
-
     def test_inspect_room(self):
         self.game.load_room("room1")
-        self.game.make_action_command("room", "inspect").execute()
-        self.receiver.inform_response.assert_called_with("room", "This is a room.")
+        interaction = self.game.interact("room", "inspect")
+        self.assertEqual(next(interaction).get_message(), "This is a room.")
 
     def test_get_object_actions(self):
         self.game.load_room("room2")
@@ -98,5 +90,4 @@ class GameInteractorTests(TestCase):
             "desk": [],
             "chair": ["inspect", "foo"],
         })
-
 

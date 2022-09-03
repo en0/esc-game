@@ -1,23 +1,19 @@
-from typing import List, Dict, Set, Generator, Any
-from contextlib import contextmanager
-from .model import DelegateCommand
-from .typing import (
-    Action,
-    ActionReceiver,
-    Command,
+from typing import List, Dict, Set, Any, Iterator
+from .domain import (
+    ActionApi,
     EscapeRoomGame,
     GameObject,
-    InteractiveActionReceiver,
-    Receiver,
+    Interaction,
+    InteractionResponseGenerator,
+    InteractionResponseType,
     RoomPack,
 )
 
 
 class EscapeRoomGameInteractor(EscapeRoomGame):
 
-    def __init__(self, room_pack: RoomPack, receiver: Receiver) -> None:
+    def __init__(self, room_pack: RoomPack) -> None:
         self._room_pack = room_pack
-        self._receiver = receiver
         self._room_container = None
 
     def load_room(self, name: str) -> List[str]:
@@ -29,30 +25,59 @@ class EscapeRoomGameInteractor(EscapeRoomGame):
             for k in self._room_container.get_children()
         }
 
-    def make_action_command(
+    def interact(
         self,
         object_name: str,
         action_name: str,
         using_object: str = None,
-    ) -> Command:
-        obj = self._room_container.get_child(object_name)
-        act = obj.get_action(action_name)
-        return DelegateCommand(self._trigger_action, obj, act)
-
-    def _trigger_action(self, game_object: GameObject, action: Action):
-        receiver = ActionReceiverInteractor(self._receiver, self._room_container, game_object)
-        action.trigger(receiver)
+    ) -> Interaction:
+        game_object = self._room_container.get_child(object_name)
+        action = game_object.get_action(action_name)
+        receiver = ActionReceiverInteractor(self._room_container, game_object)
+        generator = action.trigger(receiver)
+        return ActionInteractor(generator)
 
 
-class ActionReceiverInteractor(ActionReceiver, InteractiveActionReceiver):
+class ActionInteractor(Interaction):
 
-    def __init__(self, receiver: Receiver, room: GameObject, sender: GameObject) -> None:
-        self._receiver = receiver
+    def __init__(self, generator: InteractionResponseGenerator) -> None:
+        self._gen = generator
+        self._current = None
+        self._input = None
+
+    def __iter__(self) -> Iterator[Interaction]:
+        return self
+
+    def __next__(self) -> Interaction:
+        if self._current is None:
+            self._current = next(self._gen)
+        elif self._current.get_type() == InteractionResponseType.DONE:
+            raise StopIteration()
+        elif self._current.get_type() == InteractionResponseType.COLLECT_INPUT:
+            self._current = self._gen.send(self._input)
+        else:
+            self._current = next(self._gen)
+        self._input = None
+        return self
+
+    def inform_input(self, value: str) -> None:
+        self._input = value
+
+    def get_type(self) -> InteractionResponseType:
+        return self._current.get_type()
+
+    def get_message(self) -> str:
+        return self._current.get_message()
+
+    def get_hits(self) -> Set[str]:
+        return self._current.get_hits()
+
+
+class ActionReceiverInteractor(ActionApi):
+
+    def __init__(self, room: GameObject, sender: GameObject) -> None:
         self._container = room
         self._sender_name = sender.get_name()
-
-    def win(self, message: str) -> None:
-        self._receiver.inform_win(message)
 
     def get_owner_name(self) -> str:
         return self._sender_name
@@ -69,28 +94,4 @@ class ActionReceiverInteractor(ActionReceiver, InteractiveActionReceiver):
         obj = self._container.get_child(object_name)
         new_obj = obj.get_child(child_name)
         self._container.add_child(new_obj)
-
-    @contextmanager
-    def interactive_session(
-        self,
-        hints: Set[str] = None
-    ) -> Generator[InteractiveActionReceiver, None, None]:
-        self._receiver.start_interactive_session(self._sender_name, hints)
-        try:
-            yield self
-        finally:
-            self._receiver.end_interactive_session(self._sender_name)
-
-    def collect_input(
-        self,
-        prompt: str,
-        hints: Set[str] = None
-    ) -> str:
-        return self._receiver.collect_input(self._sender_name, prompt, hints)
-
-    def inform_response(
-        self,
-        message: str,
-    ) -> None:
-        self._receiver.inform_response(self._sender_name, message)
 
