@@ -1,8 +1,8 @@
 from unittest import TestCase, skip
-from unittest.mock import Mock
+from unittest.mock import Mock, ANY
 from fixtures import a, an
 
-from esc.core import RoomPack
+from esc.core import RoomPack, ObjectNotFoundError
 
 
 class GameInteractorTests(TestCase):
@@ -59,9 +59,13 @@ class GameInteractorTests(TestCase):
              )
              .build()
         )
+        self.mock_action = Mock()
+        self.mock_action.get_name.return_value = "mock"
+        self.mock_action.trigger.return_value = iter([])
         desk = (
             a.basic_game_object_builder
              .with_name("desk")
+             .with_action(self.mock_action)
              .build()
         )
         room = (
@@ -87,7 +91,17 @@ class GameInteractorTests(TestCase):
         result = self.game.get_object_actions()
         self.assertDictEqual(result, {
             "room": [],
-            "desk": [],
+            "desk": ["mock"],
             "chair": ["inspect", "foo"],
         })
+
+    def test_using_target(self):
+        self.game.load_room("room2")
+        self.game.interact("desk", "mock", "room")
+        self.mock_action.trigger.assert_called_with(ANY, "room")
+
+    def test_using_target_raises_object_not_found(self):
+        self.game.load_room("room2")
+        with self.assertRaises(ObjectNotFoundError):
+            self.game.interact("desk", "mock", "no-exist")
 

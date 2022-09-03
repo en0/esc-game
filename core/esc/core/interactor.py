@@ -35,7 +35,11 @@ class EscapeRoomGameInteractor(EscapeRoomGame):
         game_object = self._room_container.get_child(object_name)
         action = game_object.get_action(action_name)
         receiver = ActionReceiverInteractor(self._room_container, game_object)
-        generator = action.trigger(receiver)
+        using_object_name = (
+            self._room_container.get_child(using_object).get_name()
+            if using_object else None
+        )
+        generator = action.trigger(receiver, using_object_name)
         return ActionInteractor(generator, object_name, action_name)
 
 

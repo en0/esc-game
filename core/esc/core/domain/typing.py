@@ -82,7 +82,11 @@ class Action(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def trigger(self, receiver: ActionApi) -> InteractionResponseGenerator:
+    def trigger(
+        self,
+        api: ActionApi,
+        using_object: "GameObject" = None,
+    ) -> InteractionResponseGenerator:
         raise NotImplementedError()
 
 

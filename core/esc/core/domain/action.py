@@ -2,6 +2,7 @@ from .exception import PropertyNotFoundError
 from .typing import (
     Action,
     ActionApi,
+    GameObject,
     InteractionResponseGenerator,
 )
 from .model import (
@@ -27,7 +28,11 @@ class InformAction(Action):
     def get_name(self) -> str:
        return self._name
 
-    def trigger(self, api: ActionApi) -> InteractionResponseGenerator:
+    def trigger(
+        self,
+        api: ActionApi,
+        using_object: "GameObject" = None,
+    ) -> InteractionResponseGenerator:
         value = self._get_message(api)
         yield InformResultInteractionResponse(value)
         yield CompleteInteractionResponse()
