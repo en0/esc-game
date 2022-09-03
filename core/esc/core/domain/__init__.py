@@ -30,6 +30,7 @@ from .model import (
     CompleteInteractionResponse,
     BasicGameObject,
     CollectInputInteractionResponse,
+    InformLoseInteractionResponse,
     InformResultInteractionResponse,
     InformWinInteractionResponse,
     StaticRoomPack,

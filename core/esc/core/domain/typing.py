@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import (
-    Dict,
-    List,
-    Callable,
-    Set,
     Any,
+    Callable,
+    Dict,
     Generator,
     Iterator,
+    List,
+    Optional,
+    Set,
 )
 
 
@@ -24,6 +25,7 @@ class InteractionResponseType(Enum):
     COLLECT_INPUT = auto()
     INFORM_RESULT = auto()
     INFORM_WIN = auto()
+    INFORM_LOSE = auto()
 
 
 class ActionApi(ABC):
@@ -85,7 +87,7 @@ class Action(ABC):
     def trigger(
         self,
         api: ActionApi,
-        using_object: "GameObject" = None,
+        using_object: Optional["GameObject"],
     ) -> InteractionResponseGenerator:
         raise NotImplementedError()
 

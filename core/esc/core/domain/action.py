@@ -1,3 +1,4 @@
+from typing import Optional
 from .exception import PropertyNotFoundError
 from .typing import (
     Action,
@@ -31,7 +32,7 @@ class InformAction(Action):
     def trigger(
         self,
         api: ActionApi,
-        using_object: "GameObject" = None,
+        using_object: Optional[GameObject],
     ) -> InteractionResponseGenerator:
         value = self._get_message(api)
         yield InformResultInteractionResponse(value)

@@ -22,7 +22,7 @@ class InformActionTests(TestCase):
               .with_default_message("foo")
               .build()
             )
-        ag = action.trigger(api)
+        ag = action.trigger(api, None)
         result = next(ag)
         self.assertEqual(result.get_message(), "bar")
 
@@ -36,7 +36,7 @@ class InformActionTests(TestCase):
               .with_default_message("foo")
               .build()
             )
-        ag = action.trigger(api)
+        ag = action.trigger(api, None)
         result = next(ag)
         self.assertEqual(result.get_message(), "foo")
 
@@ -50,7 +50,7 @@ class InformActionTests(TestCase):
               .with_default_message("foo")
               .build()
             )
-        ag = action.trigger(api)
+        ag = action.trigger(api, None)
         result = next(ag)
         self.assertEqual(result.get_message(), "foo")
 
@@ -59,7 +59,7 @@ class InformActionTests(TestCase):
         api.get_owner_name.return_value = "obj"
         api.get_object_property.return_value = "bar"
         action = an.inform_action_builder.with_name("a").with_property_key("b").build()
-        ag = action.trigger(api)
+        ag = action.trigger(api, None)
 
         result = next(ag)
         self.assertEqual(result.get_type(), InteractionResponseType.INFORM_RESULT)

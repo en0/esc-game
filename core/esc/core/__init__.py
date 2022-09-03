@@ -16,6 +16,7 @@ from .domain import (
     EscapeRoomGame,
     GameObject,
     InformAction,
+    InformLoseInteractionResponse,
     InformResultInteractionResponse,
     InformWinInteractionResponse,
     Interaction,

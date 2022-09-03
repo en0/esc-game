@@ -115,6 +115,10 @@ class InformWinInteractionResponse(_InteractionBase):
     def __init__(self, message: str) -> None:
         super().__init__(InteractionResponseType.INFORM_WIN, message, None)
 
+class InformLoseInteractionResponse(_InteractionBase):
+    def __init__(self, message: str) -> None:
+        super().__init__(InteractionResponseType.INFORM_LOSE, message, None)
+
 
 class StaticRoomPack(RoomPack):
 
