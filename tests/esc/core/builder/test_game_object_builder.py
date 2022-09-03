@@ -48,6 +48,7 @@ class GameObjectBuilderTests(TestCase):
     def test_actions(self):
         mock = Mock(spec=Action)
         mock.get_name.return_value = 'bar'
+        mock.get_aliases.return_value = []
         builder = a.game_object_builder_builder.build()
         builder.with_name("foo")
         builder.with_action(mock)

@@ -61,6 +61,7 @@ class GameInteractorTests(TestCase):
         )
         self.mock_action = Mock()
         self.mock_action.get_name.return_value = "mock"
+        self.mock_action.get_aliases.return_value = []
         self.mock_action.trigger.return_value = iter([])
         desk = (
             a.basic_game_object_builder

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from .exception import PropertyNotFoundError
 from .typing import (
     Action,
@@ -19,15 +19,20 @@ class InformAction(Action):
     def __init__(
         self,
         name: str,
+        aliases: List[str] = None,
         property: str = None,
         default_message: str = None
     ) -> None:
         self._name = name
+        self._aliases = aliases or []
         self._prop = property
         self._msg = default_message
 
     def get_name(self) -> str:
-       return self._name
+        return self._name
+
+    def get_aliases(self) -> List[str]:
+        return list(self._aliases)
 
     def trigger(
         self,

@@ -84,6 +84,10 @@ class Action(ABC):
         raise NotImplementedError()
 
     @abstractmethod
+    def get_aliases(self) -> List[str]:
+        raise NotImplementedError()
+
+    @abstractmethod
     def trigger(
         self,
         api: ActionApi,

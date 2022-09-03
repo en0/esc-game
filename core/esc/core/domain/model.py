@@ -29,6 +29,7 @@ class BasicGameObject(GameObject):
 
     ) -> None:
         self._actions = {}
+        self._actions_lookup = {}
         self._aliases = aliases or []
         self._children = {}
         self._children_lookup = {}
@@ -77,10 +78,15 @@ class BasicGameObject(GameObject):
         self._props[key] = value
 
     def add_action(self, action: Action) -> None:
-        self._actions[action.get_name()] = action
+        name = action.get_name()
+        self._actions[name] = action
+        self._actions_lookup[name] = name
+        for alias in action.get_aliases():
+            self._actions_lookup[alias] = name
 
     def get_action(self, name: str) -> Action:
         try:
+            name = self._actions_lookup[name]
             return self._actions[name]
         except KeyError:
             raise ActionNotFoundError(self._name, name)

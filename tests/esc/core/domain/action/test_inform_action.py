@@ -11,6 +11,11 @@ class InformActionTests(TestCase):
         action = an.inform_action_builder.with_name("action").build()
         self.assertEqual(action.get_name(), "action")
 
+    def test_get_aliases(self):
+        action = an.inform_action_builder.with_name("a").with_alias("b").build()
+        self.assertListEqual(action.get_aliases(), ["b"])
+
+
     def test_property_value(self):
         api = Mock(spec=ActionApi)
         api.get_owner_name.return_value = "obj"

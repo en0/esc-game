@@ -9,6 +9,7 @@ class InformActionBuilder(BuilderBase):
         self._message = None
         self._property = None
         self._name = "action-name"
+        self._aliases = []
 
     def with_default_message(self, value: str) -> "InformActionBuilder":
         self._message = value
@@ -22,5 +23,14 @@ class InformActionBuilder(BuilderBase):
         self._name = value
         return self
 
+    def with_alias(self, value: str) -> "InformActionBuilder":
+        self._aliases.append(value)
+        return self
+
     def build(self) -> InformAction:
-        return InformAction(self._name, self._property, self._message)
+        return InformAction(
+            name=self._name,
+            aliases=self._aliases,
+            property=self._property,
+            default_message=self._message,
+        )

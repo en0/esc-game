@@ -86,7 +86,9 @@ class BasicGameObjectTests(TestCase):
         action2 = Mock(spec=Action)
 
         action1.get_name.return_value = "action1"
+        action1.get_aliases.return_value = []
         action2.get_name.return_value = "action2"
+        action2.get_aliases.return_value = []
 
         game_obj = a.basic_game_object_builder.build()
 
@@ -98,6 +100,7 @@ class BasicGameObjectTests(TestCase):
     def test_get_action(self):
         action1 = Mock(spec=Action)
         action1.get_name.return_value = "action1"
+        action1.get_aliases.return_value = []
         game_obj = a.basic_game_object_builder.build()
         game_obj.add_action(action1)
         self.assertIs(game_obj.get_action("action1"), action1)
@@ -165,3 +168,11 @@ class BasicGameObjectTests(TestCase):
              .build()
         )
         container.remove_child("bar")
+
+    def test_get_action_by_alias(self):
+        action1 = Mock(spec=Action)
+        action1.get_name.return_value = "action1"
+        action1.get_aliases.return_value = ["a", "b"]
+        game_obj = a.basic_game_object_builder.build()
+        game_obj.add_action(action1)
+        self.assertIs(game_obj.get_action("a"), action1)
