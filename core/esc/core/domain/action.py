@@ -37,7 +37,7 @@ class InformAction(Action):
     def trigger(
         self,
         api: ActionApi,
-        using_object: Optional[GameObject],
+        using_object: Optional[str],
     ) -> InteractionResponseGenerator:
         value = self._get_message(api)
         yield InformResultInteractionResponse(value)
@@ -51,4 +51,24 @@ class InformAction(Action):
             return api.get_object_property(name, self._prop)
         except PropertyNotFoundError:
             return self._msg
+
+
+class RevealActionDecorator(Action):
+    def __init__(self, action: Action) -> None:
+        self._action = action
+
+    def get_name(self) -> str:
+        return self._action.get_name()
+
+    def get_aliases(self) -> List[str]:
+        return self._action.get_aliases()
+
+    def trigger(
+        self,
+        api: ActionApi,
+        using_object: Optional[str],
+    ) -> InteractionResponseGenerator:
+        name = api.get_owner_name()
+        api.reveal_all_child_objects(name)
+        yield from self._action.trigger(api, using_object)
 

@@ -6,6 +6,8 @@ from .domain import (
     ConfigurationError,
     EscapeRoomGame,
     GameObject,
+    InformAction,
+    RevealActionDecorator,
     RoomCreator,
     RoomFactory,
     RoomPack,
@@ -16,6 +18,7 @@ from .domain import (
 class GameObjectBuilder:
 
     def __init__(self) -> None:
+        self._last_added_action = None
         self._actions = []
         self._aliases = []
         self._children = []
@@ -45,6 +48,25 @@ class GameObjectBuilder:
 
     def with_action(self, value: Action) -> "GameObjectBuilder":
         self._actions.append(value)
+        self._last_added_action = value
+        return self
+
+    def with_inform_action(
+        self,
+        value: str,
+        aliases: List[str],
+        prop_key: str = "_inspect_msg",
+    ) -> "GameObjectBuilder":
+        name, *aliases = aliases
+        self.with_property(prop_key, value)
+        self.with_action(InformAction(name, aliases, prop_key))
+        return self
+
+    def and_with_reveal_decorator(self) -> "GameObjectBuilder":
+        if self._last_added_action is None:
+            raise ConfigurationError(
+                "You can only add a decorator after adding an action to decorate.")
+        self.with_action(RevealActionDecorator(self._last_added_action))
         return self
 
     def build(self) -> GameObject:

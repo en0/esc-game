@@ -46,6 +46,10 @@ class ActionApi(ABC):
     def reveal_child_object(self, object_name: str, child_name: str) -> None:
         raise NotImplementedError()
 
+    @abstractmethod
+    def reveal_all_child_objects(self, object_name: str) -> None:
+        raise NotImplementedError()
+
 
 class InteractionResponse(ABC):
 
@@ -91,7 +95,7 @@ class Action(ABC):
     def trigger(
         self,
         api: ActionApi,
-        using_object: Optional["GameObject"],
+        using_object: Optional[str],
     ) -> InteractionResponseGenerator:
         raise NotImplementedError()
 

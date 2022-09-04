@@ -24,6 +24,7 @@ from .exception import (
 
 from .action import (
     InformAction,
+    RevealActionDecorator,
 )
 
 from .model import (

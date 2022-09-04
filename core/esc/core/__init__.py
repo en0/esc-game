@@ -25,6 +25,7 @@ from .domain import (
     InteractionResponseType,
     ObjectNotFoundError,
     PropertyNotFoundError,
+    RevealActionDecorator,
     RoomFactory,
     RoomPack,
     RoomPackNotFoundError,

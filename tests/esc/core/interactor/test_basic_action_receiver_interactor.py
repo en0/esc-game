@@ -44,5 +44,9 @@ class BasicActionReceiverTests(TestCase):
         self.interactor.reveal_child_object("thing2", "thing2_1")
         self.assertIs(self.room_container.get_child("thing2_1"), self.thing2_1)
 
+    def test_reveal_child(self):
+        self.interactor.reveal_all_child_objects("thing2")
+        self.assertIs(self.room_container.get_child("thing2_1"), self.thing2_1)
+
     def test_get_owner_name(self):
         self.assertEqual(self.interactor.get_owner_name(), self.thing1.get_name())

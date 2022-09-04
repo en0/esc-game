@@ -123,3 +123,8 @@ class ActionReceiverInteractor(ActionApi):
         new_obj = obj.get_child(child_name)
         self._container.add_child(new_obj)
 
+    def reveal_all_child_objects(self, object_name: str) -> None:
+        obj = self._container.get_child(object_name)
+        for child in obj.get_children():
+            self._container.add_child(child)
+
