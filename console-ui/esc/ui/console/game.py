@@ -46,7 +46,7 @@ class EscapeRoomGame:
             cmd, args = cmd.lower(), args.lower()
             if cmd == "help":
                 self._show_help()
-            elif cmd in ["exit", "quit"]:
+            elif cmd == "quit":
                 self._playing = False
             else:
                 self._take_turn(cmd, args)
@@ -106,6 +106,7 @@ class EscapeRoomGame:
         self._print(f"  {self._room_name}> open door")
         self._print("")
         self._print("There are many more options. You will have to use your imagination.")
+        self._print("You can type quit to exit the game.")
         self._print("")
 
     def _print(self, text: str) -> None:

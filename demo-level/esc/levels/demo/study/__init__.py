@@ -30,6 +30,7 @@ def creator():
         GameObjectBuilder()
          .with_name("whiteboard")
          .with_alias("white board")
+         .with_alias("chalkboard")
          .with_alias("chalk board")
          .with_alias("board")
          .with_inform_action(const.WHITEBOARD_INFO, const.INSPECT_ALIASES)
@@ -45,15 +46,7 @@ def creator():
          .build()
     )
 
-    door = (
-        GameObjectBuilder()
-         .with_name("door")
-         .with_alias("exit")
-         .with_inform_action(const.DOOR_INFO, const.INSPECT_ALIASES, "inspect_msg")
-         .with_action(UseDoorAction())
-         .with_property("locked", True)
-         .build()
-    )
+    door = _create_door()
 
     room = (
         GameObjectBuilder()
@@ -83,6 +76,8 @@ def _create_desk():
     photo = (
         GameObjectBuilder()
          .with_name("photo")
+         .with_alias("picture")
+         .with_alias("family photo")
          .with_inform_action(const.PHOTO_INFO, const.INSPECT_ALIASES)
          .build()
     )
@@ -104,6 +99,10 @@ def _create_bookshelf():
     pma = (
         GameObjectBuilder()
          .with_name("practical malware analysis")
+         .with_name("practical malwar analysis")
+         .with_name("practical")
+         .with_name("practical malwar")
+         .with_name("practical malware")
          .with_inform_action(const.PRACTICAL_MALWARE_ANALYSIS_INFO, const.INSPECT_ALIASES)
          .build()
     )
@@ -111,6 +110,8 @@ def _create_bookshelf():
     bhp = (
         GameObjectBuilder()
          .with_name("black hat python")
+         .with_name("black")
+         .with_name("black hat")
          .with_inform_action(const.BLACK_HAT_PYTHON_INFO, const.INSPECT_ALIASES)
          .build()
     )
@@ -126,6 +127,7 @@ def _create_bookshelf():
         GameObjectBuilder()
          .with_name("audio engine box")
          .with_alias("audio engine a5+ box")
+         .with_alias("speaker box")
          .with_inform_action(const.AUDIO_ENGINE_BOX_INFO, const.INSPECT_ALIASES)
          .build()
     )
@@ -137,15 +139,16 @@ def _create_bookshelf():
          .with_alias("iphone 13 pro box")
          .with_alias("iphone 13 pro max box")
          .with_alias("iphone 13 max box")
+         .with_alias("phone box")
+         .with_alias("cell phone box")
          .with_inform_action(const.IPHONE_BOX_INFO, const.INSPECT_ALIASES)
          .build()
     )
 
-    yale_box = (
+    lock_box = (
         GameObjectBuilder()
-         .with_name("yale box")
-         .with_alias("yale lock box")
-         .with_inform_action(const.YALE_BOX_INFO, const.INSPECT_ALIASES)
+         .with_name("lock box")
+         .with_inform_action(const.LOCK_BOX_INFO, const.INSPECT_ALIASES)
          .build()
     )
 
@@ -163,8 +166,24 @@ def _create_bookshelf():
          .with_name("elite-c box")
          .with_alias("elite c box")
          .with_alias("elite box")
+         .with_alias("controller box")
+         .with_alias("controllers box")
          .with_inform_action(const.ELITE_BOX_INFO, const.INSPECT_ALIASES)
          .build()
+    )
+
+    books = (
+        GameObjectBuilder()
+         .with_name("books")
+         .with_alias("book")
+         .with_inform_action(const.BOOKS_INFO, const.INSPECT_ALIASES)
+    )
+
+    boxes = (
+        GameObjectBuilder()
+         .with_name("boxes")
+         .with_alias("box")
+         .with_inform_action(const.BOXS_INFO, const.INSPECT_ALIASES)
     )
 
     return (
@@ -178,9 +197,11 @@ def _create_bookshelf():
          .with_child(ls)
          .with_child(ae_box)
          .with_child(ip_box)
-         .with_child(yale_box)
+         .with_child(lock_box)
          .with_child(rp_box)
          .with_child(ec_box)
+         .with_child(books)
+         .with_child(boxes)
          .build()
     )
 
@@ -194,5 +215,25 @@ def _create_computer():
          .with_alias("machine")
          .with_inform_action(const.COMPUTER_INFO, const.INSPECT_ALIASES)
          .with_action(ComputerUseAction())
+         .build()
+    )
+
+def _create_door():
+    lock = (
+        GameObjectBuilder()
+         .with_name("lock")
+         .with_alias("door lock")
+         .with_inform_action(const.LOCK_INFO, const.INSPECT_ALIASES)
+         .build()
+    )
+
+    return (
+        GameObjectBuilder()
+         .with_name("door")
+         .with_alias("exit")
+         .with_inform_action(const.DOOR_INFO, const.INSPECT_ALIASES, "inspect_msg")
+         .with_action(UseDoorAction())
+         .with_property("locked", True)
+         .with_child(lock)
          .build()
     )

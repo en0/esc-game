@@ -90,7 +90,7 @@ class ComputerUseAction(Action):
 
     def _bash(self):
         self._history = deque(maxlen=50)
-        self._history.append("send_mqtt -h 192.168.22.23 -t study/light -m ON")
+        self._history.append("send_mqtt -h mqtt.local -t study/light -m on")
         self._pwd = "/home/sam"
         while True:
             self._cmdline = yield collect(self._prompt)
@@ -206,7 +206,7 @@ class ComputerUseAction(Action):
     def _do_send_mqtt(self):
         if not all([k in self._opts for k in ["-h", "-t", "-m"]]):
             yield inform("send_mqtt: Input error. Check manual.")
-        elif self._opts["-h"] != "192.168.22.23":
+        elif self._opts["-h"] != "mqtt.local":
             yield inform("send_mqtt: Host unreachable.")
         elif "-u" not in self._opts or "-p" not in self._opts:
             yield inform("send_mqtt: Connection Refused: not authorized.")

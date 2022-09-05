@@ -103,7 +103,7 @@ class BookshelfTests(TestCase):
         ag = self.game.interact("yale box", "inspect")
         result = next(ag)
         self.assertEqual(ag.get_type(), InteractionResponseType.INFORM_RESULT)
-        self.assertEqual(ag.get_message(), study.const.YALE_BOX_INFO)
+        self.assertEqual(ag.get_message(), study.const.LOCK_BOX_INFO)
         self.assertEqual(ag.get_hits(), set())
 
     def test_inspect_reveals_pi_box(self):
