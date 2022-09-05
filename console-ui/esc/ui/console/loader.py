@@ -50,6 +50,7 @@ class RoomPackLoader:
                         ):
                             room_pack = member()
                             self._loaded[room_pack.get_name().lower()] = room_pack
-                except ImportError:
+                except ImportError as ex:
+                    print(ex)
                     pass
 

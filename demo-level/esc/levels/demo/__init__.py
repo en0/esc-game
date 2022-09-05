@@ -1,8 +1,8 @@
+import pkg_resources
 from typing import List
 from esc.core import RoomPackBuilder, RoomPack, GameObject
 
-from . import study
-
+from .loader import YamlGameLoader
 
 class DemoRoomPack(RoomPack):
 
@@ -10,7 +10,7 @@ class DemoRoomPack(RoomPack):
         self._package = (
             RoomPackBuilder()
             .with_name("Demo")
-            .with_room(study.name, study.creator)
+            .with_room(*self._load_room("Study"))
             .build()
         )
 
@@ -23,3 +23,6 @@ class DemoRoomPack(RoomPack):
     def create_room(self, name: str) -> GameObject:
         return self._package.create_room(name)
 
+    def _load_room(self, name: str):
+        path = pkg_resources.resource_filename(__package__, f"{name.lower()}.yaml")
+        return (name, YamlGameLoader(name, path))

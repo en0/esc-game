@@ -11,7 +11,6 @@ from esc.core import (
     InformWinInteractionResponse,
 )
 
-from . import const
 
 def inform(msg):
     return InformResultInteractionResponse(msg, {"interactive"})
@@ -22,15 +21,18 @@ def collect(msg):
 def collect_hidden(msg):
     return CollectInputInteractionResponse(msg, {"interactive", "hidden"})
 
-class ComputerUseAction(Action):
+class StudyComputerUseAction(Action):
 
-    def __init__(self):
-        self._hostname = f"{const.COMPUTER_USERNAME}_pc"
-        self._username = const.COMPUTER_USERNAME
-        self._passwords = const.COMPUTER_PASSWORDS
-        self._motd = const.COMPUTER_MOTD
-        self._mqtt_password = const.MQTT_PASSWORD
-        self._mqtt_topic = const.MQTT_TOPIC
+    def __init__(self, vars: Dict):
+        self._name = vars["COMPUTER_USE_ALIASES"][0]
+        self._aliases = vars["COMPUTER_USE_ALIASES"][1:]
+        self._hostname = f"{vars['COMPUTER_USERNAME']}_pc"
+        self._username = vars["COMPUTER_USERNAME"]
+        self._passwords = vars["COMPUTER_PASSWORDS"]
+        self._motd = vars["COMPUTER_MOTD"]
+        self._mqtt_password = vars["MQTT_PASSWORD"]
+        self._mqtt_topic = vars["MQTT_TOPIC"]
+        self._door_info_unlocked = vars["DOOR_INFO_UNLOCKED"]
         self._fs = {
             "/": "bin home",
             "/bin": "echo id ls man whoami send_mqtt",
@@ -51,10 +53,10 @@ class ComputerUseAction(Action):
         return f"{self._username}@{self._hostname}:{self._pwd}$ "
 
     def get_name(self) -> str:
-        return const.COMPUTER_USE_ALIASES[0]
+        return self._name
 
     def get_aliases(self) -> List[str]:
-        return const.COMPUTER_USE_ALIASES[1:]
+        return self._aliases
 
     def trigger(
         self,
@@ -91,7 +93,7 @@ class ComputerUseAction(Action):
     def _bash(self):
         self._history = deque(maxlen=50)
         self._history.append("send_mqtt -h mqtt.local -t study/light -m on")
-        self._pwd = "/home/sam"
+        self._pwd = f"/home/{self._username}"
         while True:
             self._cmdline = yield collect(self._prompt)
             self._parse_cmdline()
@@ -215,7 +217,7 @@ class ComputerUseAction(Action):
         elif self._opts["-p"] != self._mqtt_password:
             yield inform("send_mqtt: Connection Refused: not authorized.")
         elif self._opts["-t"].lower() == self._mqtt_topic and self._opts["-m"].lower() == "unlock":
-            self._api.set_object_property("door", "inspect_msg", const.DOOR_INFO_UNLOCKED)
+            self._api.set_object_property("door", "inspect_msg", self._door_info_unlocked)
             self._api.set_object_property("door", "locked", False)
             yield inform("Message Sent")
         else:

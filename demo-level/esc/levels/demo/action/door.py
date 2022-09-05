@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 from esc.core import (
     Action,
     ActionApi,
@@ -8,16 +8,20 @@ from esc.core import (
     CompleteInteractionResponse,
 )
 
-from . import const
 
+class StudyDoorUseAction(Action):
 
-class UseDoorAction(Action):
+    def __init__(self, vars: Dict) -> None:
+        aliases = vars.get("DOOR_UES_ALIASES", ["use", "interact"])
+        self._name = aliases[0]
+        self._aliases = aliases[1:]
+        self._win_message = vars["WIN_MESSAGE"]
 
     def get_name(self) -> str:
-        return const.DOOR_UES_ALIASES[0]
+        return self._name
 
     def get_aliases(self) -> List[str]:
-        return const.DOOR_UES_ALIASES[1:]
+        return self._aliases
 
     def trigger(
         self,
@@ -29,5 +33,5 @@ class UseDoorAction(Action):
         if is_locked:
             yield InformResultInteractionResponse("The door is locked.")
         else:
-            yield InformWinInteractionResponse(const.WIN_MESSAGE)
+            yield InformWinInteractionResponse(self._win_message)
         yield CompleteInteractionResponse()

@@ -14,7 +14,9 @@ setup(
     author="Ian Laird",
     author_email="irlaird@gmail.com",
     url="https://github.com/en0/esc",
-    packages=["esc.levels.demo"],
+    packages=["esc.levels.demo", "esc.levels.demo.action"],
+    include_package_data=True,
+    package_data={'esc.levels.demo': ['*.yaml']},
     classifiers=[
         "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
