@@ -8,6 +8,7 @@ from .inform_action_builder import InformActionBuilder
 from .reveal_action_decorator_bulider import RevealActionDecoratorBuilder
 from .room_pack_builder_builder import RoomPackBuilderBuilder
 from .static_room_pack_builder import StaticRoomPackBuilder
+from .history_prompt_session_builder import HistoryPromptSessionBuilder
 
 
 class _A:
@@ -38,6 +39,10 @@ class _A:
     @property
     def reveal_action_decorator_builder(self) -> RevealActionDecoratorBuilder:
         return RevealActionDecoratorBuilder()
+
+    @property
+    def history_prompt_session_builder(self) -> HistoryPromptSessionBuilder:
+        return HistoryPromptSessionBuilder()
 
 
 class _An:

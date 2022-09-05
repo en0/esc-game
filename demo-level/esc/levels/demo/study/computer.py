@@ -44,6 +44,7 @@ class ComputerUseAction(Action):
         self._args: List[str] = None
         self._opts: Dict[str, str] = None
         self._raw_args: List[str] = None
+        self._api = None
 
     @property
     def _prompt(self):
@@ -60,6 +61,7 @@ class ComputerUseAction(Action):
         api: ActionApi,
         using_object: Optional[str],
     ) -> InteractionResponseGenerator:
+        self._api = api
         yield from self._banner()
         yield from self._login()
         yield from self._show_motd()
@@ -213,8 +215,9 @@ class ComputerUseAction(Action):
         elif self._opts["-p"] != self._mqtt_password:
             yield inform("send_mqtt: Connection Refused: not authorized.")
         elif self._opts["-t"].lower() == self._mqtt_topic and self._opts["-m"].lower() == "unlock":
-            yield InformWinInteractionResponse("Good Job! You solved the puzzle.")
-            yield CompleteInteractionResponse()
+            self._api.set_object_property("door", "inspect_msg", const.DOOR_INFO_UNLOCKED)
+            self._api.set_object_property("door", "locked", False)
+            yield inform("Message Sent")
         else:
             yield inform("Message Sent")
 

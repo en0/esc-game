@@ -2,7 +2,7 @@ from unittest import TestCase, skip
 from unittest.mock import Mock
 from fixtures import a, an
 
-from esc.levels.demo import room_pack, study
+from esc.levels.demo import DemoRoomPack, study
 from esc.core import (
     GameObject,
     ActionApi,
@@ -17,7 +17,7 @@ class WhiteboardTests(TestCase):
     def setUp(self):
         self.game = (
             a.game_interactor_builder
-             .with_room_pack(room_pack)
+             .with_room_pack(DemoRoomPack())
              .build()
         )
         self.game.load_room(study.name)

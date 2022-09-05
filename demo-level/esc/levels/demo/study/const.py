@@ -1,5 +1,6 @@
 MQTT_TOPIC = "study/yale"
 MQTT_PASSWORD = "yNjFq9"
+WIN_MESSAGE = "You exit the room. Congratulations, YOU WIN!"
 ROOM_INFO = (
     'You hear the door click shut behind you. In front of you is a computer desk. On '
     'top of the desk is a computer. Next to the desk is a waste basket. On the far '
@@ -19,6 +20,7 @@ DESK_INFO = "This is a sturdy desk. What is this? A family photo?"
 COMPUTER_INFO = "This seems to be on. Can I use with it?"
 WHITEBOARD_INFO = f'What is this? "{MQTT_TOPIC}" And what does 1883 mean?'
 PLANT_INFO = "The house plant seems content. It appears well cared for."
+PLANT_WATER = "You wanter the plant."
 PHOTO_INFO = (
     "This is a shinny frame. This is obviously an important photo to the owner "
     "of this desk. Is this a birthday party? There is a cake with Happy 30th written "
@@ -39,7 +41,7 @@ DOOR_INFO = (
     'This is appears to be the only way out. But, the door is locked. Upon closer '
     'inspection you notice the lock is electronic - YALE.'
 )
-
+DOOR_INFO_UNLOCKED = "This is appears to be the only way out. And, it's unlocked!"
 INSPECT_ALIASES = ["inspect", "examine"]
 COMPUTER_USE_ALIASES = ["use", "interact"]
 
@@ -62,3 +64,5 @@ COMPUTER_PASSWORDS = [
     "80-08-11"
     "80/08/11"
 ]
+
+DOOR_UES_ALIASES = ["use", "open"]

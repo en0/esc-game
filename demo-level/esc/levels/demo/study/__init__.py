@@ -2,6 +2,7 @@ from esc.core import GameObjectBuilder
 
 from . import const
 from .computer import ComputerUseAction
+from .door import UseDoorAction
 
 
 name = "Study"
@@ -40,6 +41,7 @@ def creator():
          .with_name("plant")
          .with_alias("house plant")
          .with_inform_action(const.PLANT_INFO, const.INSPECT_ALIASES)
+         .with_inform_action(const.PLANT_WATER, ["water"])
          .build()
     )
 
@@ -47,7 +49,9 @@ def creator():
         GameObjectBuilder()
          .with_name("door")
          .with_alias("exit")
-         .with_inform_action(const.DOOR_INFO, const.INSPECT_ALIASES)
+         .with_inform_action(const.DOOR_INFO, const.INSPECT_ALIASES, "inspect_msg")
+         .with_action(UseDoorAction())
+         .with_property("locked", True)
          .build()
     )
 

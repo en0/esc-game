@@ -2,7 +2,7 @@ from unittest import TestCase, skip
 from unittest.mock import Mock
 from fixtures import a, an
 
-from esc.levels.demo import room_pack, study
+from esc.levels.demo import DemoRoomPack, study
 from esc.core import (
     GameObject,
     ActionApi,
@@ -17,7 +17,7 @@ class ComputerTests(TestCase):
     def setUp(self):
         self.game = (
             a.game_interactor_builder
-             .with_room_pack(room_pack)
+             .with_room_pack(DemoRoomPack())
              .build()
         )
         self.game.load_room(study.name)
@@ -78,9 +78,4 @@ class ComputerTests(TestCase):
         self.assertEqual(ag.get_type(), InteractionResponseType.COLLECT_INPUT)
         self.assertEqual(ag.get_hits(), {"interactive"})
         result.inform_input(f"send_mqtt -h 192.168.22.23 -t {study.const.MQTT_TOPIC} -m unlock -u {study.const.COMPUTER_USERNAME} -p {study.const.MQTT_PASSWORD}")
-
-        # win message
-        result = next(ag)
-        self.assertEqual(ag.get_type(), InteractionResponseType.INFORM_WIN)
-        self.assertEqual(ag.get_hits(), set())
 

@@ -17,8 +17,9 @@ class GameInteractorTests(TestCase):
 
     def _make_room_pack(self):
         builder = a.room_pack_builder_builder.build()
-        builder.with_room_container("room1", self._room1)
-        builder.with_room_container("room2", self._room2)
+        builder.with_name("unittest")
+        builder.with_room("room1", self._room1)
+        builder.with_room("room2", self._room2)
         return builder.build()
 
     def _room1(self):

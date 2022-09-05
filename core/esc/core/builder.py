@@ -58,8 +58,7 @@ class GameObjectBuilder:
         prop_key: str = "_inspect_msg",
     ) -> "GameObjectBuilder":
         name, *aliases = aliases
-        self.with_property(prop_key, value)
-        self.with_action(InformAction(name, aliases, prop_key))
+        self.with_action(InformAction(name, aliases, prop_key, value))
         return self
 
     def and_with_reveal_decorator(self) -> "GameObjectBuilder":
@@ -98,15 +97,22 @@ class RoomPackBuilder:
             return self._create()
 
     def __init__(self) -> None:
+        self._name = None
         self._factories = []
 
-    def with_room_container(self, name: str, creator: RoomCreator) -> "RoomPackBuilder":
+    def with_name(self, name: str) -> "RoomPackBuilder":
+        self._name = name
+        return self
+
+    def with_room(self, name: str, creator: RoomCreator) -> "RoomPackBuilder":
         factory = RoomPackBuilder._DelegateRoomFactory(name, creator)
         self._factories.append(factory)
         return self
 
     def build(self) -> RoomPack:
-        return StaticRoomPack(self._factories)
+        if self._name is None:
+            raise ConfigurationError("You must specify a name for this RoomPack.")
+        return StaticRoomPack(self._name, self._factories)
 
 
 class EscapeRoomGameBuilder:
@@ -121,4 +127,4 @@ class EscapeRoomGameBuilder:
     def build(self) -> EscapeRoomGame:
         if self._room_pack:
             return EscapeRoomGameInteractor(self._room_pack)
-        raise ConfigurationError("You must specifiy a RoomPack")
+        raise ConfigurationError("You must specify a RoomPack")

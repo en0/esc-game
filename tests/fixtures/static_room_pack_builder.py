@@ -6,8 +6,9 @@ from esc.core.domain.model import StaticRoomPack
 
 class StaticRoomPackBuilder(BuilderBase[RoomPack]):
 
-    def build(self) -> RoomPack:
-        return StaticRoomPack(self._room_factories)
+    def __init__(self) -> None:
+        self._name = "room-pack-test"
+        self._room_factories = []
 
     def with_room_factories(self, factories: List[RoomFactory]) -> "StaticRoomPackBuilder":
         for f in factories:
@@ -18,6 +19,10 @@ class StaticRoomPackBuilder(BuilderBase[RoomPack]):
         self._room_factories.append(factory)
         return self
 
-    def __init__(self) -> None:
-        self._room_factories = []
+    def with_name(self, value: str) -> "StaticRoomPackBuilder":
+        self._name = value
+        return self
+
+    def build(self) -> RoomPack:
+        return StaticRoomPack(self._name, self._room_factories)
 

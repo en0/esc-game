@@ -150,6 +150,10 @@ class GameObject(ABC):
 class RoomPack(ABC):
 
     @abstractmethod
+    def get_name(self) -> str:
+        raise NotImplementedError()
+
+    @abstractmethod
     def list_rooms(self) -> List[str]:
         raise NotImplementedError()
 

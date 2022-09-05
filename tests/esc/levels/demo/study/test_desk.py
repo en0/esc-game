@@ -2,7 +2,7 @@ from unittest import TestCase, skip
 from unittest.mock import Mock
 from fixtures import a, an
 
-from esc.levels.demo import room_pack, study
+from esc.levels.demo import DemoRoomPack, study
 from esc.core import (
     GameObject,
     ActionApi,
@@ -15,7 +15,7 @@ from esc.core import (
 class DeskTests(TestCase):
 
     def setUp(self):
-        self.room_pack = room_pack
+        self.room_pack = DemoRoomPack()
         self.game = (
             a.game_interactor_builder
              .with_room_pack(self.room_pack)
