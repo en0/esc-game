@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from esc.core import RoomPack
+from esc.core.typing import RoomPack
 from fixtures import a
 
 

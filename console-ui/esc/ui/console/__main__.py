@@ -1,16 +1,16 @@
 from typing import NamedTuple
 
 from .game import EscapeRoomGame
-from .loader import RoomPackLoader
+from .room_loader import RoomPackLoader
 from .prompt import MenuPrompt
 
 
-class CmdOpts(NamedTuple):
+class ConfigOptions(NamedTuple):
     room_pack_namespace: str
 
     @staticmethod
     def parse():
-        return CmdOpts(
+        return ConfigOptions(
             room_pack_namespace="esc.levels"
         )
 
@@ -22,8 +22,8 @@ def get_room_pack_name(names) -> str:
     return menu.prompt()
 
 
-def main(opts: CmdOpts):
-    room_packs = RoomPackLoader(opts.room_pack_namespace)
+def main(config: ConfigOptions):
+    room_packs = RoomPackLoader(config.room_pack_namespace)
     if not room_packs:
         print("There are no room packs installed. Try installing some!")
         return 1
@@ -31,6 +31,7 @@ def main(opts: CmdOpts):
     if choice.lower() != 'exit':
         EscapeRoomGame(room_packs.get_room_pack(choice)).play()
 
+
 if __name__ == "__main__":
-    opts = CmdOpts.parse()
+    opts = ConfigOptions.parse()
     main(opts)

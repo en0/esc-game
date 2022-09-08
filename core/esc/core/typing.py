@@ -83,9 +83,9 @@ class Action(ABC):
 
     @abstractmethod
     def trigger(
-        self,
-        api: ActionApi,
-        using_object: Optional[str],
+            self,
+            api: ActionApi,
+            using_object: Optional[str],
     ) -> InteractionResponseGenerator:
         raise NotImplementedError()
 
@@ -166,7 +166,7 @@ class RoomFactory(ABC):
 class EscapeRoomGame(ABC):
 
     @abstractmethod
-    def load_room(self, name: str) -> List[str]:
+    def load_room(self, name: str) -> None:
         raise NotImplementedError()
 
     @abstractmethod
@@ -175,10 +175,10 @@ class EscapeRoomGame(ABC):
 
     @abstractmethod
     def interact(
-        self,
-        object_name: str,
-        action_name: str,
-        using_object: str = None,
+            self,
+            object_name: str,
+            action_name: str,
+            using_object: str = None,
     ) -> Interaction:
         raise NotImplementedError()
 

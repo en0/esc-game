@@ -1,4 +1,4 @@
-from esc.core import RoomPackBuilder
+from esc.core.builder import RoomPackBuilder
 
 from .base import BuilderBase
 

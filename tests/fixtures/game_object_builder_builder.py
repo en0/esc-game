@@ -1,4 +1,4 @@
-from esc.core import GameObjectBuilder
+from esc.core.builder import GameObjectBuilder
 
 from .base import BuilderBase
 

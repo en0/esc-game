@@ -1,4 +1,4 @@
-from esc.core import EscapeRoomGameBuilder
+from esc.core.builder import EscapeRoomGameBuilder
 
 from .base import BuilderBase
 

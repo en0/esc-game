@@ -3,14 +3,12 @@ from typing import List, Tuple
 
 from prompt_toolkit.input import Input, create_input
 from prompt_toolkit.output import Output, create_output
-from prompt_toolkit.shortcuts import PromptSession as PT_PromptSession
+from prompt_toolkit.shortcuts import PromptSession
 from prompt_toolkit.styles import Style
 from prompt_toolkit.validation import Validator
 
-from .typing import PromptSession
 
-
-class HistoryPromptSession(PromptSession):
+class HistoryPromptSession:
 
     def __init__(
         self,
@@ -21,7 +19,7 @@ class HistoryPromptSession(PromptSession):
         pipeline_output: Output = None,
     ):
         self._re_validator = re.compile(re_validator, re.IGNORECASE)
-        self._session = PT_PromptSession(
+        self._session = PromptSession(
             validator=Validator.from_callable(self._validator, error_message),
             input=(
                 pipeline_input if pipeline_input

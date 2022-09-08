@@ -1,8 +1,14 @@
 from unittest import TestCase
 
-from esc.core import ActionError, InteractionResponseType
-from esc.core.domain.action import (CollectInputInteractionResponse, CompleteInteractionResponse,
-                                    InformResultInteractionResponse, InformWinInteractionResponse)
+from esc.core.typing import InteractionResponseType
+from esc.core.exception import ActionError
+from esc.core.action import (
+    CollectInputInteractionResponse,
+    CompleteInteractionResponse,
+    InformResultInteractionResponse,
+    InformWinInteractionResponse
+)
+
 from fixtures import an
 
 

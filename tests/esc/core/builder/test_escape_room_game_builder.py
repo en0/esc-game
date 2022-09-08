@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from esc.core import ConfigurationError
+from esc.core.exception import ConfigurationError
 from fixtures import an
 
 

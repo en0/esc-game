@@ -1,8 +1,8 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from esc.core import (Action, ActionNotFoundError, GameObject, ObjectNotFoundError,
-                      PropertyNotFoundError)
+from esc.core.typing import (Action, GameObject)
+from esc.core.exception import (ActionNotFoundError, ObjectNotFoundError, PropertyNotFoundError)
 from fixtures import a
 
 

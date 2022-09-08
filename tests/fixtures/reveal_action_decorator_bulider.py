@@ -1,6 +1,7 @@
 from unittest.mock import Mock
 
-from esc.core import Action, RevealActionDecorator
+from esc.core.typing import Action
+from esc.core.action import RevealActionDecorator
 
 from .base import BuilderBase
 

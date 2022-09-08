@@ -3,7 +3,7 @@ from importlib import import_module
 from os import listdir
 from typing import Iterator, List
 
-from esc.core import RoomPack
+from esc.core.typing import RoomPack
 
 
 class RoomPackLoader:

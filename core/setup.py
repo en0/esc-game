@@ -13,7 +13,12 @@ setup(
     author="Ian Laird",
     author_email="irlaird@gmail.com",
     url="https://github.com/en0/esc",
-    packages=["esc.core", "esc.core.domain"],
+    packages=[
+        "esc.core",
+        "esc.core.action",
+        "esc.core.builder",
+        "esc.core.interactor",
+    ],
     classifiers=[
         "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",

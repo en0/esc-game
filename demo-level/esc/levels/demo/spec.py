@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
-from esc.core import GameObject, GameObjectBuilder
+from esc.core.builder import GameObjectBuilder
+from esc.core.typing import GameObject
 
 from . import action as all_actions
 
@@ -46,8 +47,8 @@ class GameObjectSpec:
     properties: List[PropertySpec] = None
     children: List["GameObjectSpec"] = None
 
-    def build(self, vars: Dict = None) -> GameObject:
-        vars = vars or {}
+    def build(self, constant: Dict = None) -> GameObject:
+        constant = constant or {}
         builder = GameObjectBuilder()
         builder.with_name(self.name)
         for alias in self.aliases or []:
@@ -61,9 +62,9 @@ class GameObjectSpec:
                 builder.and_with_reveal_decorator()
         for action in self.actions:
             klass = getattr(all_actions, action)
-            builder.with_action(klass(vars))
-        for property in self.properties or []:
-            builder.with_property(property.key, property.value)
+            builder.with_action(klass(constant))
+        for prop in self.properties or []:
+            builder.with_property(prop.key, prop.value)
         for child in self.children or []:
             builder.with_child(child.build())
         return builder.build()

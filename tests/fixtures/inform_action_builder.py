@@ -1,4 +1,4 @@
-from esc.core import InformAction
+from esc.core.action import InformAction
 
 from .base import BuilderBase
 
@@ -31,6 +31,6 @@ class InformActionBuilder(BuilderBase):
         return InformAction(
             name=self._name,
             aliases=self._aliases,
-            property=self._property,
+            prop=self._property,
             default_message=self._message,
         )

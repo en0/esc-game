@@ -1,17 +1,18 @@
 from typing import Dict, List, Optional
 
-from esc.core import (Action, ActionApi, CompleteInteractionResponse,
-                      InformResultInteractionResponse, InformWinInteractionResponse,
-                      InteractionResponseGenerator)
+from esc.core.action import (CompleteInteractionResponse,
+                             InformResultInteractionResponse,
+                             InformWinInteractionResponse)
+from esc.core.typing import Action, ActionApi, InteractionResponseGenerator
 
 
 class StudyDoorUseAction(Action):
 
-    def __init__(self, vars: Dict) -> None:
-        aliases = vars.get("DOOR_UES_ALIASES", ["use", "interact"])
+    def __init__(self, constant: Dict) -> None:
+        aliases = constant.get("DOOR_UES_ALIASES", ["use", "interact"])
         self._name = aliases[0]
         self._aliases = aliases[1:]
-        self._win_message = vars["WIN_MESSAGE"]
+        self._win_message = constant["WIN_MESSAGE"]
 
     def get_name(self) -> str:
         return self._name

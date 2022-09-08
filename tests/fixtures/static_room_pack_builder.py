@@ -1,7 +1,7 @@
 from typing import List
 
-from esc.core import RoomFactory, RoomPack
-from esc.core.domain.model import StaticRoomPack
+from esc.core.typing import RoomFactory, RoomPack
+from esc.core.model import StaticRoomPack
 
 from .base import BuilderBase
 

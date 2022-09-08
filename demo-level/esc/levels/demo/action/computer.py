@@ -2,32 +2,38 @@ from collections import deque
 from os import path
 from typing import Deque, Dict, List, Optional
 
-from esc.core import (Action, ActionApi, CollectInputInteractionResponse,
-                      CompleteInteractionResponse, InformResultInteractionResponse,
-                      InteractionResponseGenerator)
+from esc.core.action import (
+    CollectInputInteractionResponse,
+    CompleteInteractionResponse,
+    InformResultInteractionResponse
+)
+from esc.core.typing import Action, ActionApi, InteractionResponseGenerator
 
 
 def inform(msg):
     return InformResultInteractionResponse(msg, {"interactive"})
 
+
 def collect(msg):
     return CollectInputInteractionResponse(msg, {"interactive"})
+
 
 def collect_hidden(msg):
     return CollectInputInteractionResponse(msg, {"interactive", "hidden"})
 
+
 class StudyComputerUseAction(Action):
 
-    def __init__(self, vars: Dict):
-        self._name = vars["COMPUTER_USE_ALIASES"][0]
-        self._aliases = vars["COMPUTER_USE_ALIASES"][1:]
-        self._hostname = f"{vars['COMPUTER_USERNAME']}_pc"
-        self._username = vars["COMPUTER_USERNAME"]
-        self._passwords = vars["COMPUTER_PASSWORDS"]
-        self._motd = vars["COMPUTER_MOTD"]
-        self._mqtt_password = vars["MQTT_PASSWORD"]
-        self._mqtt_topic = vars["MQTT_TOPIC"]
-        self._door_info_unlocked = vars["DOOR_INFO_UNLOCKED"]
+    def __init__(self, constant: Dict):
+        self._name = constant["COMPUTER_USE_ALIASES"][0]
+        self._aliases = constant["COMPUTER_USE_ALIASES"][1:]
+        self._hostname = f"{constant['COMPUTER_USERNAME']}_pc"
+        self._username = constant["COMPUTER_USERNAME"]
+        self._passwords = constant["COMPUTER_PASSWORDS"]
+        self._motd = constant["COMPUTER_MOTD"]
+        self._mqtt_password = constant["MQTT_PASSWORD"]
+        self._mqtt_topic = constant["MQTT_TOPIC"]
+        self._door_info_unlocked = constant["DOOR_INFO_UNLOCKED"]
         self._fs = {
             "/": "bin home",
             "/bin": "echo id ls man whoami send_mqtt",

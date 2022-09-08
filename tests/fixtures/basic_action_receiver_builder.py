@@ -1,5 +1,5 @@
-from esc.core import ActionApi, GameObject
-from esc.core.interactor import ActionReceiverInteractor
+from esc.core.typing import ActionApi, GameObject
+from esc.core.interactor.action_receiver_interactor import ActionReceiverInteractor
 
 from .base import BuilderBase
 from .basic_game_object_builder import BasicGameObjectBuilder

@@ -1,7 +1,9 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from esc.core import Action, ActionApi, ConfigurationError, RevealActionDecorator
+from esc.core.typing import Action, ActionApi
+from esc.core.action import RevealActionDecorator
+from esc.core.exception import ConfigurationError
 from fixtures import a
 
 

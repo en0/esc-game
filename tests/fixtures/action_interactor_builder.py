@@ -1,5 +1,5 @@
-from esc.core import Interaction, InteractionResponseGenerator
-from esc.core.interactor import ActionInteractor
+from esc.core.typing import Interaction, InteractionResponseGenerator
+from esc.core.interactor.action_interactor import ActionInteractor
 
 from .base import BuilderBase
 
