@@ -1,6 +1,6 @@
 from typing import Any
 
-from esc.core.typing import GameObject, ActionApi
+from esc.core.typing import ActionApi, GameObject
 
 
 class ActionReceiverInteractor(ActionApi):

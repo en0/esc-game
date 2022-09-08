@@ -3,7 +3,7 @@ from typing import Any, List
 from esc.core.action import InformAction, RevealActionDecorator
 from esc.core.exception import ConfigurationError
 from esc.core.model import BasicGameObject
-from esc.core.typing import GameObject, Action
+from esc.core.typing import Action, GameObject
 
 
 class GameObjectBuilder:

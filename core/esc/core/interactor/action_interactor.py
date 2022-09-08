@@ -1,8 +1,7 @@
 from typing import Iterator, Set
 
 from esc.core.exception import ActionError
-from esc.core.typing import (Interaction, InteractionResponseGenerator,
-                      InteractionResponseType)
+from esc.core.typing import Interaction, InteractionResponseGenerator, InteractionResponseType
 
 
 class ActionInteractor(Interaction):

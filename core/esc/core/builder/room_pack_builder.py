@@ -1,6 +1,6 @@
 from esc.core.exception import ConfigurationError
 from esc.core.model import StaticRoomPack
-from esc.core.typing import GameObject, RoomFactory, RoomCreator, RoomPack
+from esc.core.typing import GameObject, RoomCreator, RoomFactory, RoomPack
 
 
 class RoomPackBuilder:

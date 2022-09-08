@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 
-from esc.core.exception import (ActionNotFoundError, ObjectNotFoundError, PropertyNotFoundError)
-from esc.core.typing import (Action, GameObject)
+from esc.core.exception import ActionNotFoundError, ObjectNotFoundError, PropertyNotFoundError
+from esc.core.typing import Action, GameObject
 
 
 class BasicGameObject(GameObject):

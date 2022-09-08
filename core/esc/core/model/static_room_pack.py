@@ -1,7 +1,7 @@
 from typing import List
 
-from esc.core.exception import (RoomPackNotFoundError)
-from esc.core.typing import (GameObject, RoomFactory, RoomPack)
+from esc.core.exception import RoomPackNotFoundError
+from esc.core.typing import GameObject, RoomFactory, RoomPack
 
 
 class StaticRoomPack(RoomPack):

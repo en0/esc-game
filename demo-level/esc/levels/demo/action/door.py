@@ -1,7 +1,6 @@
 from typing import Dict, List, Optional
 
-from esc.core.action import (CompleteInteractionResponse,
-                             InformResultInteractionResponse,
+from esc.core.action import (CompleteInteractionResponse, InformResultInteractionResponse,
                              InformWinInteractionResponse)
 from esc.core.typing import Action, ActionApi, InteractionResponseGenerator
 

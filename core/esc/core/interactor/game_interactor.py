@@ -1,9 +1,9 @@
 from typing import Dict, List
 
-from esc.core.typing import RoomPack, EscapeRoomGame, Interaction
+from esc.core.typing import EscapeRoomGame, Interaction, RoomPack
 
-from .action_receiver_interactor import ActionReceiverInteractor
 from .action_interactor import ActionInteractor
+from .action_receiver_interactor import ActionReceiverInteractor
 
 
 class EscapeRoomGameInteractor(EscapeRoomGame):

@@ -1,8 +1,8 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from esc.core.typing import ActionApi, InteractionResponseType
 from esc.core.exception import PropertyNotFoundError
+from esc.core.typing import ActionApi, InteractionResponseType
 from fixtures import an
 
 

@@ -1,6 +1,6 @@
 from esc.core.exception import ConfigurationError
 from esc.core.interactor import EscapeRoomGameInteractor
-from esc.core.typing import RoomPack, EscapeRoomGame
+from esc.core.typing import EscapeRoomGame, RoomPack
 
 
 class EscapeRoomGameBuilder:

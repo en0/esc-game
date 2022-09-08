@@ -3,7 +3,7 @@ from typing import List, Optional
 from esc.core.exception import PropertyNotFoundError
 from esc.core.typing import Action, ActionApi, InteractionResponseGenerator
 
-from .response import InformResultInteractionResponse, CompleteInteractionResponse
+from .response import CompleteInteractionResponse, InformResultInteractionResponse
 
 
 class InformAction(Action):

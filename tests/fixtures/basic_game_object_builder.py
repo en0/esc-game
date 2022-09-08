@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 
-from esc.core.typing import Action, GameObject
 from esc.core.model import BasicGameObject
+from esc.core.typing import Action, GameObject
 
 from .base import BuilderBase
 

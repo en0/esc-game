@@ -2,11 +2,8 @@ from collections import deque
 from os import path
 from typing import Deque, Dict, List, Optional
 
-from esc.core.action import (
-    CollectInputInteractionResponse,
-    CompleteInteractionResponse,
-    InformResultInteractionResponse
-)
+from esc.core.action import (CollectInputInteractionResponse, CompleteInteractionResponse,
+                             InformResultInteractionResponse)
 from esc.core.typing import Action, ActionApi, InteractionResponseGenerator
 
 
