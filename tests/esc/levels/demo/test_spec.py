@@ -1,6 +1,4 @@
-from unittest import TestCase, skip
-from unittest.mock import Mock
-from fixtures import a, an
+from unittest import TestCase
 
 from esc.levels.demo.spec import GameObjectSpec
 

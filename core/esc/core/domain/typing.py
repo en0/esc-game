@@ -1,16 +1,6 @@
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    Generator,
-    Iterator,
-    List,
-    Optional,
-    Set,
-)
-
+from typing import Any, Callable, Dict, Generator, Iterator, List, Optional, Set
 
 RoomCreator = Callable[[None], "GameObject"]
 InteractionResponseGenerator = Generator[

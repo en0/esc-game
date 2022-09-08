@@ -1,14 +1,7 @@
-from typing import List, Dict, Set, Any, Iterator
-from .domain import (
-    ActionApi,
-    ActionError,
-    EscapeRoomGame,
-    GameObject,
-    Interaction,
-    InteractionResponseGenerator,
-    InteractionResponseType,
-    RoomPack,
-)
+from typing import Any, Dict, Iterator, List, Set
+
+from .domain import (ActionApi, ActionError, EscapeRoomGame, GameObject, Interaction,
+                     InteractionResponseGenerator, InteractionResponseType, RoomPack)
 
 
 class EscapeRoomGameInteractor(EscapeRoomGame):

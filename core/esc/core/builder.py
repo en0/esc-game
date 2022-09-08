@@ -1,18 +1,9 @@
-from typing import List, Any
+from typing import Any, List
+
+from .domain import (Action, BasicGameObject, ConfigurationError, EscapeRoomGame, GameObject,
+                     InformAction, RevealActionDecorator, RoomCreator, RoomFactory, RoomPack,
+                     StaticRoomPack)
 from .interactor import EscapeRoomGameInteractor
-from .domain import (
-    Action,
-    BasicGameObject,
-    ConfigurationError,
-    EscapeRoomGame,
-    GameObject,
-    InformAction,
-    RevealActionDecorator,
-    RoomCreator,
-    RoomFactory,
-    RoomPack,
-    StaticRoomPack,
-)
 
 
 class GameObjectBuilder:

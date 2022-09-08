@@ -1,8 +1,8 @@
 from typing import NamedTuple
 
-from .loader import RoomPackLoader
-from .prompt import HistoryPromptSession, MenuPrompt
 from .game import EscapeRoomGame
+from .loader import RoomPackLoader
+from .prompt import MenuPrompt
 
 
 class CmdOpts(NamedTuple):

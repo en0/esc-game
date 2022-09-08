@@ -1,6 +1,6 @@
-from unittest import TestCase, skip
-from unittest.mock import Mock
-from fixtures import a, an
+from unittest import TestCase
+
+from fixtures import a
 
 
 class BasicActionReceiverTests(TestCase):

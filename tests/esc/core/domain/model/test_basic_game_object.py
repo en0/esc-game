@@ -1,15 +1,9 @@
-from unittest import TestCase, skip
+from unittest import TestCase
 from unittest.mock import Mock
-from fixtures import a, an
 
-from esc.core import (
-    Action,
-    ActionApi,
-    ActionNotFoundError,
-    GameObject,
-    ObjectNotFoundError,
-    PropertyNotFoundError,
-)
+from esc.core import (Action, ActionNotFoundError, GameObject, ObjectNotFoundError,
+                      PropertyNotFoundError)
+from fixtures import a
 
 
 class BasicGameObjectTests(TestCase):

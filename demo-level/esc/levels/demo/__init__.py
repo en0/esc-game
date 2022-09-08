@@ -1,8 +1,10 @@
-import pkg_resources
 from typing import List
-from esc.core import RoomPackBuilder, RoomPack, GameObject
+
+import pkg_resources
+from esc.core import GameObject, RoomPack, RoomPackBuilder
 
 from .loader import YamlGameLoader
+
 
 class DemoRoomPack(RoomPack):
 

@@ -1,10 +1,11 @@
 import re
-from typing import Callable, Tuple, List
+from typing import List, Tuple
+
 from prompt_toolkit.input import Input, create_input
 from prompt_toolkit.output import Output, create_output
 from prompt_toolkit.shortcuts import PromptSession as PT_PromptSession
-from prompt_toolkit.validation import Validator
 from prompt_toolkit.styles import Style
+from prompt_toolkit.validation import Validator
 
 from .typing import PromptSession
 

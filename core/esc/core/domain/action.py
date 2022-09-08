@@ -1,17 +1,8 @@
-from typing import Optional, List
+from typing import List, Optional
+
 from .exception import PropertyNotFoundError
-from .typing import (
-    Action,
-    ActionApi,
-    GameObject,
-    InteractionResponseGenerator,
-)
-from .model import (
-    CompleteInteractionResponse,
-    CollectInputInteractionResponse,
-    InformResultInteractionResponse,
-    InformWinInteractionResponse,
-)
+from .model import CompleteInteractionResponse, InformResultInteractionResponse
+from .typing import Action, ActionApi, InteractionResponseGenerator
 
 
 class InformAction(Action):

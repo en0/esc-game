@@ -1,6 +1,7 @@
-from unittest import TestCase, skip
+from unittest import TestCase
+
+from fixtures import a
 from prompt_toolkit.input import create_pipe_input
-from fixtures import a, an
 
 
 class HistoryPromptSession(TestCase):

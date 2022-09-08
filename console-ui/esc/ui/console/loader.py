@@ -1,7 +1,7 @@
 import inspect
-from typing import List, Iterator
 from importlib import import_module
 from os import listdir
+from typing import Iterator, List
 
 from esc.core import RoomPack
 
@@ -52,5 +52,4 @@ class RoomPackLoader:
                             self._loaded[room_pack.get_name().lower()] = room_pack
                 except ImportError as ex:
                     print(ex)
-                    pass
 

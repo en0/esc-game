@@ -1,8 +1,8 @@
-from unittest import TestCase, skip
-from unittest.mock import Mock, MagicMock
-from fixtures import a, an
+from unittest import TestCase
+from unittest.mock import Mock
 
-from esc.core import RoomFactory, GameObject, RoomPackNotFoundError
+from esc.core import GameObject, RoomFactory, RoomPackNotFoundError
+from fixtures import a
 
 
 class StaticRoomPackTests(TestCase):

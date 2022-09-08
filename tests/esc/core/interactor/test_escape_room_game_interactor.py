@@ -1,8 +1,8 @@
-from unittest import TestCase, skip
-from unittest.mock import Mock, ANY
-from fixtures import a, an
+from unittest import TestCase
+from unittest.mock import ANY, Mock
 
-from esc.core import RoomPack, ObjectNotFoundError
+from esc.core import ObjectNotFoundError
+from fixtures import a, an
 
 
 class GameInteractorTests(TestCase):

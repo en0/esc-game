@@ -1,9 +1,9 @@
-from esc.core import GameObject, GameObjectBuilder
-from typing import List, Dict, Any
 from dataclasses import dataclass
+from typing import Any, Dict, List
+
+from esc.core import GameObject, GameObjectBuilder
 
 from . import action as all_actions
-
 
 
 @dataclass

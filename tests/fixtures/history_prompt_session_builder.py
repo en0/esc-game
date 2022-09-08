@@ -1,7 +1,6 @@
-from unittest.mock import Mock
-from prompt_toolkit.input import Input, create_pipe_input
-from prompt_toolkit.output import Output, DummyOutput
 from esc.ui.console.prompt import HistoryPromptSession
+from prompt_toolkit.input import Input
+from prompt_toolkit.output import DummyOutput, Output
 
 from .base import BuilderBase
 

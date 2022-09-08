@@ -1,5 +1,4 @@
-from unittest import TestCase, skip
-from fixtures import a, an
+from unittest import TestCase
 
 
 class DevelopmentEnvTests(TestCase):

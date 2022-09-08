@@ -1,4 +1,4 @@
-from esc.core import GameObject, InformAction
+from esc.core import InformAction
 
 from .base import BuilderBase
 

@@ -1,6 +1,5 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Generic, TypeVar
-
 
 Build_T = TypeVar("Build_T")
 

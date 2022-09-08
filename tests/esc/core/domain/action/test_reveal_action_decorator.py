@@ -1,8 +1,8 @@
-from unittest import TestCase, skip
+from unittest import TestCase
 from unittest.mock import Mock
-from fixtures import a, an
 
-from esc.core import ActionApi, GameObject, InteractionResponseType, PropertyNotFoundError, Action
+from esc.core import Action, ActionApi
+from fixtures import a
 
 
 class RevealActionDecoratorTests(TestCase):

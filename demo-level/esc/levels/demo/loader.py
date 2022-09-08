@@ -1,7 +1,8 @@
-from esc.core import GameObjectBuilder, GameObject
 from typing import Callable
-from yaml import safe_load
+
+from esc.core import GameObject, GameObjectBuilder
 from jinja2 import Environment
+from yaml import safe_load
 
 from .spec import GameObjectSpec
 

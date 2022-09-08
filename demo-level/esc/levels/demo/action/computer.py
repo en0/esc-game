@@ -1,15 +1,10 @@
-from typing import Optional, List, Deque, Dict, List
 from collections import deque
 from os import path
-from esc.core import (
-    Action,
-    ActionApi,
-    CollectInputInteractionResponse,
-    CompleteInteractionResponse,
-    InformResultInteractionResponse,
-    InteractionResponseGenerator,
-    InformWinInteractionResponse,
-)
+from typing import Deque, Dict, List, Optional
+
+from esc.core import (Action, ActionApi, CollectInputInteractionResponse,
+                      CompleteInteractionResponse, InformResultInteractionResponse,
+                      InteractionResponseGenerator)
 
 
 def inform(msg):

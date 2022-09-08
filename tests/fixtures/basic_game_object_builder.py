@@ -1,5 +1,6 @@
-from typing import List, Any, Dict
-from esc.core import GameObject, Action
+from typing import Any, Dict, List
+
+from esc.core import Action, GameObject
 from esc.core.domain.model import BasicGameObject
 
 from .base import BuilderBase

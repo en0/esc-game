@@ -1,12 +1,8 @@
-from typing import Optional, List, Dict
-from esc.core import (
-    Action,
-    ActionApi,
-    InteractionResponseGenerator,
-    InformResultInteractionResponse,
-    InformWinInteractionResponse,
-    CompleteInteractionResponse,
-)
+from typing import Dict, List, Optional
+
+from esc.core import (Action, ActionApi, CompleteInteractionResponse,
+                      InformResultInteractionResponse, InformWinInteractionResponse,
+                      InteractionResponseGenerator)
 
 
 class StudyDoorUseAction(Action):

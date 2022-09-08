@@ -1,7 +1,7 @@
-from unittest import TestCase, skip
-from unittest.mock import Mock
-from fixtures import a, an
-from esc.core import ConfigurationError, RoomPack
+from unittest import TestCase
+
+from esc.core import ConfigurationError
+from fixtures import an
 
 
 class EscapeRoomGameBuilderTests(TestCase):

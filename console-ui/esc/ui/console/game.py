@@ -1,6 +1,8 @@
 from textwrap import wrap
 from typing import Callable
-from esc.core import RoomPack, EscapeRoomGameBuilder, Interaction, InteractionResponse, InteractionResponseType, ObjectNotFoundError, ActionNotFoundError
+
+from esc.core import (ActionNotFoundError, EscapeRoomGameBuilder, Interaction, InteractionResponse,
+                      InteractionResponseType, ObjectNotFoundError, RoomPack)
 
 from .prompt import HistoryPromptSession, MenuPrompt
 

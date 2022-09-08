@@ -1,14 +1,9 @@
-from unittest import TestCase, skip
-from unittest.mock import Mock
-from fixtures import a, an
+from unittest import TestCase
 
-from esc.core import InteractionResponseType, InteractionResponse, ActionError
-from esc.core.domain.action import (
-    CollectInputInteractionResponse,
-    CompleteInteractionResponse,
-    InformResultInteractionResponse,
-    InformWinInteractionResponse,
-)
+from esc.core import ActionError, InteractionResponseType
+from esc.core.domain.action import (CollectInputInteractionResponse, CompleteInteractionResponse,
+                                    InformResultInteractionResponse, InformWinInteractionResponse)
+from fixtures import an
 
 
 class ActionInteractorTests(TestCase):

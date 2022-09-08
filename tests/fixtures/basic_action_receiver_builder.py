@@ -1,4 +1,3 @@
-from unittest.mock import Mock
 from esc.core import ActionApi, GameObject
 from esc.core.interactor import ActionReceiverInteractor
 
