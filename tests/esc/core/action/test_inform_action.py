@@ -70,7 +70,7 @@ class InformActionTests(TestCase):
         result = next(ag)
         self.assertEqual(result.get_type(), InteractionResponseType.INFORM_RESULT)
         self.assertEqual(result.get_message(), "bar")
-        self.assertEqual(result.get_hits(), set())
+        self.assertEqual(result.get_hints(), set())
 
         result = next(ag)
         self.assertEqual(result.get_type(), InteractionResponseType.DONE)

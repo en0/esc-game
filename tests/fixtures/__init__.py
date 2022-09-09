@@ -1,5 +1,4 @@
-from .action_interactor_builder import ActionInteractorBuilder
-from .basic_action_receiver_builder import ActionApiImplBuilder
+from .action_api_interactor_builder import ActionApiInteractorBuilder
 from .basic_game_object_builder import BasicGameObjectBuilder
 from .escape_room_game_builder_builder import EscapeRoomGameBuilderBuilder
 from .escape_room_game_interactor_builder import EscapeRoomGameInteractorBuilder
@@ -9,6 +8,7 @@ from .inform_action_builder import InformActionBuilder
 from .reveal_action_decorator_bulider import RevealActionDecoratorBuilder
 from .room_pack_builder_builder import RoomPackBuilderBuilder
 from .static_room_pack_builder import StaticRoomPackBuilder
+from .object_interaction_builder import ObjectInteractionBuilder
 
 
 class _A:
@@ -34,8 +34,8 @@ class _A:
         return RoomPackBuilderBuilder()
 
     @property
-    def action_api_impl_builder(self) -> ActionApiImplBuilder:
-        return ActionApiImplBuilder()
+    def action_api_interaction_builder(self) -> ActionApiInteractorBuilder:
+        return ActionApiInteractorBuilder()
     @property
     def reveal_action_decorator_builder(self) -> RevealActionDecoratorBuilder:
         return RevealActionDecoratorBuilder()
@@ -56,8 +56,8 @@ class _An:
         return EscapeRoomGameBuilderBuilder()
 
     @property
-    def action_interactor_builder(self) -> ActionInteractorBuilder:
-        return ActionInteractorBuilder()
+    def object_interaction_builder(self) -> ObjectInteractionBuilder:
+        return ObjectInteractionBuilder()
 
 a = _A()
 an = _An()

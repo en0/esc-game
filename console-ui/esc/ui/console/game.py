@@ -80,15 +80,15 @@ class EscapeRoomGame:
         }[response.get_type()]
 
     def _collect_input_handler(self, response: Interaction) -> None:
-        hidden = "hidden" in response.get_hits()
-        if "interactive" in response.get_hits():
+        hidden = "hidden" in response.get_hints()
+        if "interactive" in response.get_hints():
             value = self._interactive_prompt.prompt(response.get_message(), hidden)
         else:
             value = self._simple_prompt.prompt(response.get_message(), hidden)
         response.inform_input(value)
 
     def _inform_result_handler(self, response: Interaction) -> None:
-        if "interactive" in response.get_hits():
+        if "interactive" in response.get_hints():
             self._print(response.get_message())
         else:
             self._print("")

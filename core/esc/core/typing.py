@@ -52,7 +52,7 @@ class InteractionResponse(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_hits(self) -> Set[str]:
+    def get_hints(self) -> Set[str]:
         raise NotImplementedError()
 
 

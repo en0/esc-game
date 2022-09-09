@@ -2,8 +2,7 @@ from typing import Dict, List
 
 from esc.core.typing import EscapeRoomGame, Interaction, RoomPack
 
-from .action_interactor import ActionInteractor
-from .action_api_impl import ActionApiIml
+from .object_interaction import ObjectInteraction
 
 
 class EscapeRoomGameInteractor(EscapeRoomGame):
@@ -27,12 +26,9 @@ class EscapeRoomGameInteractor(EscapeRoomGame):
             action_name: str,
             using_object: str = None,
     ) -> Interaction:
-        game_object = self._room_container.get_child(object_name)
-        action = game_object.get_action(action_name)
-        receiver = ActionApiIml(self._room_container, game_object)
-        using_object_name = (
-            self._room_container.get_child(using_object).get_name()
-            if using_object else None
-        )
-        generator = action.trigger(receiver, using_object_name)
-        return ActionInteractor(generator, object_name, action_name)
+        interaction = ObjectInteraction(self._room_container)
+        interaction.set_target(object_name)
+        interaction.set_action(action_name)
+        if using_object:
+            interaction.set_using(using_object)
+        return iter(interaction)

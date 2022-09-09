@@ -20,7 +20,7 @@ class __InteractionBase(InteractionResponse):
     def get_message(self) -> str:
         return self._message
 
-    def get_hits(self) -> Set[str]:
+    def get_hints(self) -> Set[str]:
         return self._hints
 
 
