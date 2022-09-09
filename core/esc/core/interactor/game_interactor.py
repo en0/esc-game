@@ -3,7 +3,7 @@ from typing import Dict, List
 from esc.core.typing import EscapeRoomGame, Interaction, RoomPack
 
 from .action_interactor import ActionInteractor
-from .action_receiver_interactor import ActionReceiverInteractor
+from .action_api_impl import ActionApiIml
 
 
 class EscapeRoomGameInteractor(EscapeRoomGame):
@@ -29,7 +29,7 @@ class EscapeRoomGameInteractor(EscapeRoomGame):
     ) -> Interaction:
         game_object = self._room_container.get_child(object_name)
         action = game_object.get_action(action_name)
-        receiver = ActionReceiverInteractor(self._room_container, game_object)
+        receiver = ActionApiIml(self._room_container, game_object)
         using_object_name = (
             self._room_container.get_child(using_object).get_name()
             if using_object else None

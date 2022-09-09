@@ -28,7 +28,7 @@ class BasicActionReceiverTests(TestCase):
              .with_children([self.thing1, self.thing2])
              .build()
         )
-        builder = a.basic_action_receiver_builder
+        builder = a.action_api_impl_builder
         builder.with_sender(self.thing1)
         builder.with_room(self.room_container)
         self.interactor = builder.build()

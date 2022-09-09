@@ -3,7 +3,7 @@ from typing import Any
 from esc.core.typing import ActionApi, GameObject
 
 
-class ActionReceiverInteractor(ActionApi):
+class ActionApiIml(ActionApi):
 
     def __init__(self, room: GameObject, sender: GameObject) -> None:
         self._container = room
