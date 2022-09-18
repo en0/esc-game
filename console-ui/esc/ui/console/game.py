@@ -29,32 +29,38 @@ class EscapeRoomGame:
              .with_room_pack(room_pack)
              .build())
 
-    def play(self):
+    def play(self) -> None:
         self._load_room()
-        self._play()
+        self._play_until_exit()
 
     def _load_room(self) -> None:
-        rooms = self._room_pack.list_rooms()
-        if len(rooms) == 1:
-            self._room_name = rooms[0]
-        else:
-            self._room_name = self._room_menu.prompt()
+        self._room_name = self._select_room()
         self._game.load_room(self._room_name)
 
-    def _play(self):
-        self._playing = True
-        self._handle_interaction(self._game.interact("room", "inspect"))
-        while self._playing:
-            cmd, args = self._game_prompt.prompt(f"{self._room_name}> ")
-            cmd, args = cmd.lower(), args.lower()
-            if cmd == "help":
-                self._show_help()
-            elif cmd == "quit":
-                self._playing = False
-            else:
-                self._take_turn(cmd, args)
+    def _select_room(self) -> str:
+        rooms = self._room_pack.list_rooms()
+        select_room = rooms[0]
+        if len(rooms) == 1:
+            return rooms[0]
+        return self._room_menu.prompt()
 
-    def _take_turn(self, cmd, args):
+    def _play_until_exit(self) -> None:
+        self._is_playing = True
+        self._interact_with_room("inspect", "room")
+        while self._is_playing:
+            cmd, args = self._game_prompt.prompt(f"{self._room_name}> ")
+            self._handle_user_input(cmd, args)
+
+    def _handle_user_input(self, cmd: str, args: str) -> None:
+        cmd, args = cmd.lower(), args.lower()
+        if cmd == "help":
+            self._show_help()
+        elif cmd == "quit":
+            self._is_playing = False
+        else:
+            self._interact_with_room(cmd, args)
+
+    def _interact_with_room(self, cmd, args):
         try:
             result = self._game.interact(args, cmd)
             self._handle_interaction(result)
