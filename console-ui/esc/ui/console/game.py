@@ -22,33 +22,28 @@ class Game:
         self._game = game
 
     def play(self) -> None:
-        self._load_room()
-        self._play_until_exit()
-
-    def _load_room(self) -> None:
-        self._room_name = self._select_room()
-        self._game.load_room(self._room_name)
-
-    def _select_room(self) -> str:
-        return self._prompt.prompt_with_choices(
+        self._is_playing = True
+        self._room_name = self._prompt.prompt_with_choices(
             message="What room do you want to play?",
             choices=self._room_pack.list_rooms()
         )
-
-    def _play_until_exit(self) -> None:
-        self._is_playing = True
-        self._interact_with_room("inspect", "room")
+        self._game.load_room(self._room_name)
+        result = self._game.interact("room", "inspect")
+        self._handle_interaction(result)
         while self._is_playing:
             cmd, args = self._prompt.prompt_for_action(self._room_name)
-            self._handle_user_input(cmd, args)
-
-    def _handle_user_input(self, cmd: str, args: str) -> None:
-        if cmd == "help":
-            self._show_help()
-        elif cmd == "quit":
-            self._is_playing = False
-        else:
-            self._interact_with_room(cmd, args)
+            if cmd == "help":
+                self._show_help()
+            elif cmd == "quit":
+                self._is_playing = False
+            else:
+                try:
+                    result = self._game.interact(args, cmd)
+                    self._handle_interaction(result)
+                except ObjectNotFoundError:
+                    self._print(f"!! What do you want to [{cmd}]?")
+                except ActionNotFoundError:
+                    self._print(f"!! I don't know how to do that to [{args}]")
 
     def _interact_with_room(self, cmd, args):
         try:
