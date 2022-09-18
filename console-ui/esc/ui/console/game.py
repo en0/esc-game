@@ -1,33 +1,25 @@
 from textwrap import wrap
 from typing import Callable
 
-from esc.core.builder import EscapeRoomGameBuilder
 from esc.core.exception import ActionNotFoundError, ObjectNotFoundError
-from esc.core.typing import Interaction, InteractionResponse, InteractionResponseType, RoomPack
+from esc.core.typing import Interaction, InteractionResponse, InteractionResponseType, RoomPack, EscapeRoomGame
 
-from .prompt import HistoryPromptSession, MenuPrompt
+from .typing import GamePrompt
 
 
-class EscapeRoomGame:
+class Game:
 
-    def __init__(self, room_pack: RoomPack):
+    def __init__(
+        self,
+        room_pack: RoomPack,
+        prompt: GamePrompt,
+        game: EscapeRoomGame,
+    ):
         self._playing = False
-        self._room_pack = room_pack
         self._room_name = None
-        self._room_menu = MenuPrompt(
-            "What room do you want to play?", "> ",
-            room_pack.list_rooms())
-        self._game_prompt = HistoryPromptSession(
-            r"(\w*)\s?(.*)",
-            error_message="Try help to see options",
-            prompt_color="#009999"
-        )
-        self._interactive_prompt = HistoryPromptSession()
-        self._simple_prompt = HistoryPromptSession()
-        self._game = (
-            EscapeRoomGameBuilder()
-             .with_room_pack(room_pack)
-             .build())
+        self._room_pack = room_pack
+        self._prompt = prompt
+        self._game = game
 
     def play(self) -> None:
         self._load_room()
@@ -38,21 +30,19 @@ class EscapeRoomGame:
         self._game.load_room(self._room_name)
 
     def _select_room(self) -> str:
-        rooms = self._room_pack.list_rooms()
-        select_room = rooms[0]
-        if len(rooms) == 1:
-            return rooms[0]
-        return self._room_menu.prompt()
+        return self._prompt.prompt_with_choices(
+            message="What room do you want to play?",
+            choices=self._room_pack.list_rooms()
+        )
 
     def _play_until_exit(self) -> None:
         self._is_playing = True
         self._interact_with_room("inspect", "room")
         while self._is_playing:
-            cmd, args = self._game_prompt.prompt(f"{self._room_name}> ")
+            cmd, args = self._prompt.prompt_for_action(self._room_name)
             self._handle_user_input(cmd, args)
 
     def _handle_user_input(self, cmd: str, args: str) -> None:
-        cmd, args = cmd.lower(), args.lower()
         if cmd == "help":
             self._show_help()
         elif cmd == "quit":
@@ -87,10 +77,11 @@ class EscapeRoomGame:
 
     def _collect_input_handler(self, response: Interaction) -> None:
         hidden = "hidden" in response.get_hints()
+        message = response.get_message()
         if "interactive" in response.get_hints():
-            value = self._interactive_prompt.prompt(response.get_message(), hidden)
+            value = self._prompt.prompt_for_interaction(message, "foo", hidden=hidden)
         else:
-            value = self._simple_prompt.prompt(response.get_message(), hidden)
+            value = self._prompt.prompt_for_interaction(message, hidden=hidden)
         response.inform_input(value)
 
     def _inform_result_handler(self, response: Interaction) -> None:

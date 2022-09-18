@@ -3,12 +3,13 @@ from .basic_game_object_builder import BasicGameObjectBuilder
 from .escape_room_game_builder_builder import EscapeRoomGameBuilderBuilder
 from .escape_room_game_interactor_builder import EscapeRoomGameInteractorBuilder
 from .game_object_builder_builder import GameObjectBuilderBuidler
-from .history_prompt_session_builder import HistoryPromptSessionBuilder
+from .basic_game_prompt_builder import BasicGamePromptBuilder
 from .inform_action_builder import InformActionBuilder
 from .reveal_action_decorator_bulider import RevealActionDecoratorBuilder
 from .room_pack_builder_builder import RoomPackBuilderBuilder
 from .static_room_pack_builder import StaticRoomPackBuilder
 from .object_interaction_builder import ObjectInteractionBuilder
+from .console_game_builder import ConsoleGameBuilder
 
 
 class _A:
@@ -41,8 +42,12 @@ class _A:
         return RevealActionDecoratorBuilder()
 
     @property
-    def history_prompt_session_builder(self) -> HistoryPromptSessionBuilder:
-        return HistoryPromptSessionBuilder()
+    def basic_game_prompt_builder(self) -> BasicGamePromptBuilder:
+        return BasicGamePromptBuilder()
+
+    @property
+    def console_game_builder(self) -> ConsoleGameBuilder:
+        return ConsoleGameBuilder()
 
 
 class _An:
